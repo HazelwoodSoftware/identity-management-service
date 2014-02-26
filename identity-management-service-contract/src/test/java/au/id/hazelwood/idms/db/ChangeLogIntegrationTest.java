@@ -30,15 +30,15 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/application-context-test-changelog.xml"})
+@ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test-contract.xml")
 public class ChangeLogIntegrationTest
 {
     @Resource
-    private Object sessionFactory;
+    private Object entityManagerFactory;
 
     @Test
     public void checkChangeLogUpToDate() throws Exception
     {
-        assertThat(sessionFactory, notNullValue());
+        assertThat(entityManagerFactory, notNullValue());
     }
 }

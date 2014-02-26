@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.is;
 
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/application-context-test-validation.xml")
+@ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test-validation.xml")
 public class UserEntityValidationTest
 {
     @Autowired

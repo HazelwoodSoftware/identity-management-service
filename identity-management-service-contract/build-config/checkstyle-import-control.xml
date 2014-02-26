@@ -14,6 +14,10 @@
     <allow class="org.slf4j.Logger"/>
     <allow class="org.slf4j.LoggerFactory"/>
 
+    <!-- Spring -->
+    <allow class="org.springframework.beans.factory.annotation.Autowired"/>
+    <allow class="org.springframework.transaction.annotation.Transactional"/>
+
     <!-- Test imports -->
     <allow pkg="com.google.code.beanmatchers.BeanMatchers"/>
     <allow pkg="org.hamcrest.MatcherAssert"/>
@@ -33,9 +37,16 @@
     <allow class="org.junit.runners.MethodSorters"/>
 
     <subpackage name="entity">
-
         <subpackage name="user">
             <allow pkg="au.id.hazelwood.idms.entity.framework"/>
+        </subpackage>
+    </subpackage>
+
+    <subpackage name="repository">
+        <allow class="org.springframework.data.jpa.repository.JpaRepository"/>
+
+        <subpackage name="user">
+            <allow pkg="au.id.hazelwood.idms.entity.user"/>
         </subpackage>
     </subpackage>
 
