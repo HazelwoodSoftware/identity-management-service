@@ -29,6 +29,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -61,6 +62,15 @@ public class UserRepositoryIntegrationTest
     }
 
     @Test
+    public void testFindOneByEmail() throws Exception
+    {
+        assertThat(userRepository.findOneByEmail(""), nullValue());
+        assertThat(userRepository.findOneByEmail(null), nullValue());
+        assertThat(userRepository.findOneByEmail("test-01@hazelwood.id.au"), hasProperty("id", equalTo(1L)));
+        assertThat(userRepository.findOneByEmail("test-10@hazelwood.id.au"), hasProperty("id", equalTo(10L)));
+    }
+
+    @Test
     public void testCreateAndDelete() throws Exception
     {
         long initialCount = userRepository.count();
@@ -84,11 +94,15 @@ public class UserRepositoryIntegrationTest
     }
 
     @Test
-    public void testFindOneByEmail() throws Exception
+    public void testValidationError() throws Exception
     {
-        assertThat(userRepository.findOneByEmail(""), nullValue());
-        assertThat(userRepository.findOneByEmail(null), nullValue());
-        assertThat(userRepository.findOneByEmail("test-01@hazelwood.id.au"), hasProperty("id", equalTo(1L)));
-        assertThat(userRepository.findOneByEmail("test-10@hazelwood.id.au"), hasProperty("id", equalTo(10L)));
+        try
+        {
+            userRepository.save(new UserEntity("a@_b.com", "A-", "-B"));
+        }
+        catch (ConstraintViolationException e)
+        {
+            assertThat(e.getConstraintViolations().size(), is(3));
+        }
     }
 }
