@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.model.user;
+package au.id.hazelwood.idms.entity.user;
 
-import au.id.hazelwood.idms.model.framework.BaseEntity;
+import au.id.hazelwood.idms.entity.framework.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "users")
 @SuppressWarnings("UnusedDeclaration")
-public class User extends BaseEntity
+public class UserEntity extends BaseEntity
 {
     @NotNull
     @Size(min = 1, max = 254)
@@ -49,11 +49,11 @@ public class User extends BaseEntity
     @Column(name = "last_name", length = 20)
     private String lastName;
 
-    protected User()
+    protected UserEntity()
     {
     }
 
-    public User(String email, String firstName, String lastName)
+    public UserEntity(String email, String firstName, String lastName)
     {
         this.email = email;
         this.firstName = firstName;

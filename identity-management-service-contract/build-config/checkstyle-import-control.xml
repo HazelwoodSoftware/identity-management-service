@@ -32,10 +32,10 @@
     <allow class="org.junit.runner.RunWith"/>
     <allow class="org.junit.runners.MethodSorters"/>
 
-    <subpackage name="model">
+    <subpackage name="entity">
 
         <subpackage name="user">
-            <allow pkg="au.id.hazelwood.idms.model.framework"/>
+            <allow pkg="au.id.hazelwood.idms.entity.framework"/>
         </subpackage>
     </subpackage>
 

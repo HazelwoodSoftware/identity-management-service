@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.model.user;
+package au.id.hazelwood.idms.entity.user;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.is;
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context-test-validation.xml")
-public class UserValidationTest
+public class UserEntityValidationTest
 {
     @Autowired
     private Validator validator;
@@ -47,8 +47,8 @@ public class UserValidationTest
     @Test
     public void testValidationSuccess() throws Exception
     {
-        User user = new User("ricky@hazelwood.id.au", "Ricky", "Hazelwood");
-        assertThat(validator.validate(user).isEmpty(), is(true));
+        UserEntity userEntity = new UserEntity("ricky@hazelwood.id.au", "Ricky", "Hazelwood");
+        assertThat(validator.validate(userEntity).isEmpty(), is(true));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class UserValidationTest
 
     private void assertValidation(String property, String value, String... expectedViolations)
     {
-        List<String> violations = getViolations(User.class, property, value);
+        List<String> violations = getViolations(UserEntity.class, property, value);
         assertThat(violations.size(), is(expectedViolations.length));
         assertThat(violations, hasItems(expectedViolations));
     }

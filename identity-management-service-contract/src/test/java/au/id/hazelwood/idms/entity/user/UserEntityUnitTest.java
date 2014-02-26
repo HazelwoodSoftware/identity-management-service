@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.model.user;
+package au.id.hazelwood.idms.entity.user;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -29,23 +29,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 
 @FixMethodOrder(MethodSorters.JVM)
-public class UserUnitTest
+public class UserEntityUnitTest
 {
     @Test
     public void testConstructor()
     {
-        assertThat(User.class, hasValidBeanConstructor());
+        assertThat(UserEntity.class, hasValidBeanConstructor());
     }
 
     @Test
     public void testGettersAndSetters()
     {
-        assertThat(User.class, hasValidGettersAndSetters());
+        assertThat(UserEntity.class, hasValidGettersAndSetters());
     }
 
     @Test
     public void testEqualsHashCodeAndToString()
     {
-        assertThat(User.class, allOf(hasValidBeanHashCodeExcluding("id"), hasValidBeanEqualsExcluding("id"), hasValidBeanToStringExcluding()));
+        assertThat(UserEntity.class, allOf(hasValidBeanHashCodeExcluding("id"), hasValidBeanEqualsExcluding("id"), hasValidBeanToStringExcluding()));
     }
 }
