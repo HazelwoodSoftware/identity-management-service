@@ -604,6 +604,18 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
             </dependency>
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>${javax.el.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>${javax.el.version}</version>
+                <scope>provided</scope>
+            </dependency>
             <!-- DB Management -->
             <dependency>
                 <groupId>org.liquibase</groupId>
@@ -691,7 +703,7 @@
 
     <modules>
         <module>identity-management-service-build-config</module>
-        <!--<module>identity-management-service-contract</module>-->
+        <module>identity-management-service-contract</module>
     </modules>
 
     <properties>
@@ -710,7 +722,8 @@
         <hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
         <hibernate-entitymanager.version>4.3.1.Final</hibernate-entitymanager.version>
         <!-- Validation -->
-        <validation-api.version>1.0.0.GA</validation-api.version>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+        <javax.el.version>2.2.4</javax.el.version>
         <hibernate-validator.version>5.0.3.Final</hibernate-validator.version>
         <!-- JDBC Drivers -->
         <derby.version>10.10.1.1</derby.version>
