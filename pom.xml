@@ -231,6 +231,8 @@
                                     <cobertura-report format="html" destdir="${cobertura.report.directory}" datafile="${cobertura.merged.datafile}">
                                         <!--suppress MavenModelInspection -->
                                         <fileset dir="${parent.directory}/identity-management-service-contract/src/main/java"/>
+                                        <!--suppress MavenModelInspection -->
+                                        <fileset dir="${parent.directory}/identity-management-service-core/src/main/java"/>
                                     </cobertura-report>
                                 </target>
                             </configuration>
@@ -482,6 +484,11 @@
     <dependencyManagement>
         <dependencies>
             <!-- Modules -->
+            <dependency>
+                <groupId>au.id.hazelwood</groupId>
+                <artifactId>identity-management-service-contract</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- Apache/Google Commons -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -527,13 +534,12 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
+                <artifactId>spring-tx</artifactId>
                 <version>${spring-core.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
+                <artifactId>spring-jdbc</artifactId>
                 <version>${spring-core.version}</version>
                 <scope>runtime</scope>
             </dependency>
@@ -715,6 +721,7 @@
     <modules>
         <module>identity-management-service-build-config</module>
         <module>identity-management-service-contract</module>
+        <module>identity-management-service-core</module>
     </modules>
 
     <properties>
