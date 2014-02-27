@@ -27,7 +27,7 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
- * Base class for Model objects. Implements equals, hashCode and toString using reflection.
+ * Base class for entity objects. Implements equals, hashCode and toString using reflection.
  *
  * @author Ricky Hazelwood
  */

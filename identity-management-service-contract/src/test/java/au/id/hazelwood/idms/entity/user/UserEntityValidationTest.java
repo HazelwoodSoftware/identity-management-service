@@ -48,8 +48,8 @@ public class UserEntityValidationTest
     @Test
     public void testValidationSuccess() throws Exception
     {
-        UserEntity userEntity = new UserEntity("ricky@hazelwood.id.au", "Ricky", "Hazelwood");
-        assertThat(validator.validate(userEntity).isEmpty(), is(true));
+        UserEntity entity = new UserEntity("ricky@hazelwood.id.au", "Ricky", "Hazelwood");
+        assertThat(validator.validate(entity).isEmpty(), is(true));
     }
 
     @Test

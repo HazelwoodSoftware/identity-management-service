@@ -21,7 +21,7 @@ import au.id.hazelwood.idms.entity.user.UserEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * JPA repository for {@link UserEntity}.
+ * Repository for {@link UserEntity}.
  *
  * @author Ricky Hazelwood
  */

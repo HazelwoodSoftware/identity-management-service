@@ -26,7 +26,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * This class represents the basic "user" object that allows for authentication and user management.
+ * This entity represents the "users" table.
  *
  * @author Ricky Hazelwood
  */
