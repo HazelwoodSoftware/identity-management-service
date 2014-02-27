@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test-contract.xml")
+@ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test.xml")
 @TransactionConfiguration
 @Transactional
 public class UserRepositoryIntegrationTest

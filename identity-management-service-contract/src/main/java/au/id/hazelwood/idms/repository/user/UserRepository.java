@@ -18,14 +18,14 @@ package au.id.hazelwood.idms.repository.user;
 
 import au.id.hazelwood.idms.entity.user.UserEntity;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * JPA repository for {@link UserEntity}.
  *
  * @author Ricky Hazelwood
  */
-public interface UserRepository extends JpaRepository<UserEntity, Long>
+public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long>
 {
     /**
      * Retrieves {@link UserEntity} by email address.

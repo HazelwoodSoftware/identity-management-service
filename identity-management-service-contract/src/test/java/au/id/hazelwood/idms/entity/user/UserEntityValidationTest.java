@@ -19,15 +19,13 @@ package au.id.hazelwood.idms.entity.user;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +35,15 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 
 @FixMethodOrder(MethodSorters.JVM)
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test-validation.xml")
 public class UserEntityValidationTest
 {
-    @Autowired
-    private Validator validator;
+    private static Validator validator;
+
+    @BeforeClass
+    public static void beforeClass()
+    {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
 
     @Test
     public void testValidationSuccess() throws Exception

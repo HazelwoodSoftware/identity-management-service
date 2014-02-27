@@ -43,7 +43,7 @@
     </subpackage>
 
     <subpackage name="repository">
-        <allow class="org.springframework.data.jpa.repository.JpaRepository"/>
+        <allow class="org.springframework.data.repository.PagingAndSortingRepository"/>
 
         <subpackage name="user">
             <allow pkg="au.id.hazelwood.idms.entity.user"/>
