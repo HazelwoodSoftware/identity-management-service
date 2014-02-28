@@ -26,12 +26,12 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>identity-management-service-contract</artifactId>
+    <artifactId>identity-management-service-core-repository</artifactId>
     <packaging>jar</packaging>
     <version>0.1.0-SNAPSHOT</version>
 
-    <name>Identity Management Service Contract</name>
-    <description>Identity Management Service Contract defines database entities and repositories</description>
+    <name>Identity Management Service Core Repository</name>
+    <description>Identity Management Service Core Repository defines database entities and repositories</description>
 
     <build>
         <plugins>

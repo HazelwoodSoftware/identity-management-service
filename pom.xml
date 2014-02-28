@@ -230,7 +230,7 @@
                                     <!--suppress MavenModelInspection -->
                                     <cobertura-report format="html" destdir="${cobertura.report.directory}" datafile="${cobertura.merged.datafile}">
                                         <!--suppress MavenModelInspection -->
-                                        <fileset dir="${parent.directory}/identity-management-service-contract/src/main/java"/>
+                                        <fileset dir="${parent.directory}/identity-management-service-core-repository/src/main/java"/>
                                         <!--suppress MavenModelInspection -->
                                         <fileset dir="${parent.directory}/identity-management-service-core-service/src/main/java"/>
                                     </cobertura-report>
@@ -486,7 +486,7 @@
             <!-- Modules -->
             <dependency>
                 <groupId>au.id.hazelwood</groupId>
-                <artifactId>identity-management-service-contract</artifactId>
+                <artifactId>identity-management-service-core-repository</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Apache/Google Commons -->
@@ -720,7 +720,7 @@
 
     <modules>
         <module>identity-management-service-build-config</module>
-        <module>identity-management-service-contract</module>
+        <module>identity-management-service-core-repository</module>
         <module>identity-management-service-core-service</module>
     </modules>
 

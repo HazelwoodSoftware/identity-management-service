@@ -199,7 +199,7 @@
         <!-- Modules -->
         <dependency>
             <groupId>au.id.hazelwood</groupId>
-            <artifactId>identity-management-service-contract</artifactId>
+            <artifactId>identity-management-service-core-repository</artifactId>
         </dependency>
         <!-- Apache/Google Commons -->
         <dependency>
