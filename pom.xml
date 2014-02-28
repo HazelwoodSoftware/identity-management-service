@@ -232,7 +232,7 @@
                                         <!--suppress MavenModelInspection -->
                                         <fileset dir="${parent.directory}/identity-management-service-contract/src/main/java"/>
                                         <!--suppress MavenModelInspection -->
-                                        <fileset dir="${parent.directory}/identity-management-service-core/src/main/java"/>
+                                        <fileset dir="${parent.directory}/identity-management-service-core-service/src/main/java"/>
                                     </cobertura-report>
                                 </target>
                             </configuration>
@@ -721,7 +721,7 @@
     <modules>
         <module>identity-management-service-build-config</module>
         <module>identity-management-service-contract</module>
-        <module>identity-management-service-core</module>
+        <module>identity-management-service-core-service</module>
     </modules>
 
     <properties>

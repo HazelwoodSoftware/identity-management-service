@@ -26,11 +26,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>identity-management-service-core</artifactId>
+    <artifactId>identity-management-service-core-service</artifactId>
     <packaging>jar</packaging>
     <version>0.1.0-SNAPSHOT</version>
 
-    <name>Identity Management Service Core</name>
+    <name>Identity Management Service Core Service</name>
     <description>Identity Management Service Core defines models and services</description>
 
     <build>
