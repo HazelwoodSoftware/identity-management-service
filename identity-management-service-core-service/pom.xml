@@ -21,7 +21,7 @@
 
     <parent>
         <artifactId>identity-management-service</artifactId>
-        <groupId>au.id.hazelwood</groupId>
+        <groupId>au.id.hazelwood.idms</groupId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -198,7 +198,7 @@
     <dependencies>
         <!-- Modules -->
         <dependency>
-            <groupId>au.id.hazelwood</groupId>
+            <groupId>au.id.hazelwood.idms</groupId>
             <artifactId>identity-management-service-core-repository</artifactId>
         </dependency>
         <!-- Apache/Google Commons -->
