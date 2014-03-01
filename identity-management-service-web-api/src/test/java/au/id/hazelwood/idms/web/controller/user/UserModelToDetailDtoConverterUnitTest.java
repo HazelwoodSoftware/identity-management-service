@@ -44,21 +44,11 @@ public class UserModelToDetailDtoConverterUnitTest
     @Test
     public void shouldConvertAll() throws Exception
     {
-        UserModel one = createUserModel(1001L, "test-1@mail.com", "first", "last");
-        UserModel two = createUserModel(1002L, "test-2@mail.com", "second", "last");
+        UserModel one = UserModelFixture.create(1001L, "test-1@mail.com", "first", "last");
+        UserModel two = UserModelFixture.create(1002L, "test-2@mail.com", "second", "last");
         List<UserDetailDto> dtos = Lists.newArrayList(Iterables.transform(Arrays.asList(one, two), converter));
         assertUserDetailDto(dtos.get(0), 1001L, "test-1@mail.com", "first", "last");
         assertUserDetailDto(dtos.get(1), 1002L, "test-2@mail.com", "second", "last");
-    }
-
-    private UserModel createUserModel(long id, String email, String first, String last)
-    {
-        UserModel model = new UserModel();
-        model.setId(id);
-        model.setEmail(email);
-        model.setFirstName(first);
-        model.setLastName(last);
-        return model;
     }
 
     private void assertUserDetailDto(UserDetailDto dto, long id, String email, String first, String last)

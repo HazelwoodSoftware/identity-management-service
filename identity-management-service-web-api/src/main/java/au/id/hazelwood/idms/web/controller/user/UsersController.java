@@ -80,9 +80,9 @@ public class UsersController
     @ApiResponses({@ApiResponse(code = 500, message = "Processing error")})
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    public void createUser(@ApiParam(name = "body", required = true, value = "User Detail") @RequestBody UserCreateDto dto) throws NotFoundException
+    public String createUser(@ApiParam(name = "body", required = true, value = "User Detail") @RequestBody UserCreateDto dto) throws NotFoundException
     {
-        //TODO implement
+        return "TO DO";
     }
 
     @ApiOperation(value = "Find specific users", notes = "Get user by specified ID", position = 3,

@@ -61,14 +61,15 @@
                 <allow pkg="au.id.hazelwood.idms.web.exception"/>
                 <allow class="org.springframework.web.context.request.WebRequest"/>
                 <allow class="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler"/>
+
+                <!-- Test Only -->
+                <allow class="org.springframework.web.context.WebApplicationContext"/>
             </subpackage>
 
             <subpackage name="doc">
                 <allow pkg="com.wordnik.swagger.model"/>
                 <allow class="com.knappsack.swagger4springweb.controller.ApiDocumentationController"/>
-
-                <!-- Test Only -->
-                <allow class="org.springframework.web.context.WebApplicationContext"/>
+                <allow pkg="au.id.hazelwood.idms.web.controller.framework"/>
             </subpackage>
 
             <subpackage name="user">
@@ -76,6 +77,7 @@
                 <allow pkg="au.id.hazelwood.idms.service.user"/>
                 <allow pkg="au.id.hazelwood.idms.web.dto.user"/>
                 <allow pkg="au.id.hazelwood.idms.web.exception"/>
+                <allow pkg="au.id.hazelwood.idms.web.controller.framework"/>
             </subpackage>
         </subpackage>
 

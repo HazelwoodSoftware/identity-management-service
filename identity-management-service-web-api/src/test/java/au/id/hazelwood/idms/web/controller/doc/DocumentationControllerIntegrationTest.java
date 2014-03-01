@@ -16,64 +16,32 @@
  */
 package au.id.hazelwood.idms.web.controller.doc;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
+import au.id.hazelwood.idms.web.controller.framework.BaseIntegrationTest;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.ContextHierarchy;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@FixMethodOrder(MethodSorters.JVM)
-@RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles("dev")
-@WebAppConfiguration
-@ContextHierarchy({@ContextConfiguration("classpath:au/id/hazelwood/idms/application-context-mock.xml"),
-                   @ContextConfiguration("classpath:au/id/hazelwood/idms/web-context.xml")})
-public class DocumentationControllerIntegrationTest
+public class DocumentationControllerIntegrationTest extends BaseIntegrationTest
 {
-    @Autowired
-    private WebApplicationContext wac;
     @Value("${idms.api.version}")
     private String idmsApiVersion;
-    private MockMvc mockMvc;
-
-    @Before
-    public void createMockMvcWithDefaults()
-    {
-        this.mockMvc = MockMvcBuilders
-            .webAppContextSetup(this.wac)
-            .defaultRequest(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
-            .alwaysExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .alwaysExpect(jsonPath("$.apiVersion").value(idmsApiVersion))
-            .build();
-    }
 
     @Test
     public void shouldGetResources() throws Exception
     {
         RequestBuilder request = MockMvcRequestBuilders.get("/");
 
-        ResultActions result = this.mockMvc.perform(request);
+        ResultActions result = perform(request);
 
         result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.apiVersion").value(idmsApiVersion));
         result.andExpect(jsonPath("$.info.title").value("Hazelwood IDMS"));
         result.andExpect(jsonPath("$.info.description").value("Basic identity management system for restful applications."));
         result.andExpect(jsonPath("$.apis").value(hasSize(1)));
@@ -85,9 +53,10 @@ public class DocumentationControllerIntegrationTest
     {
         RequestBuilder request = MockMvcRequestBuilders.get("/doc/api/users");
 
-        ResultActions result = this.mockMvc.perform(request);
+        ResultActions result = perform(request);
 
         result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.apiVersion").value(idmsApiVersion));
         result.andExpect(jsonPath("$.resourcePath").value("/api/users"));
     }
 }

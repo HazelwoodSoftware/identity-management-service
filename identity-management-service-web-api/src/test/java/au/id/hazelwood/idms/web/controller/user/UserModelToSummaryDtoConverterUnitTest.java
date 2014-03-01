@@ -47,9 +47,9 @@ public class UserModelToSummaryDtoConverterUnitTest
     @Test
     public void shouldConvertAll() throws Exception
     {
-        UserModel one = createUserModel(1001L, "test-1@mail.com", "first", "last");
-        UserModel two = createUserModel(1002L, "test-2@mail.com", null, null);
-        UserModel three = createUserModel(1003L, "test-3@mail.com", null, "Admin");
+        UserModel one = UserModelFixture.create(1001L, "test-1@mail.com", "first", "last");
+        UserModel two = UserModelFixture.create(1002L, "test-2@mail.com", null, null);
+        UserModel three = UserModelFixture.create(1003L, "test-3@mail.com", null, "Admin");
         List<UserSummaryDto> dtos = Lists.newArrayList(Iterables.transform(Arrays.asList(one, two, three), converter));
         assertUserSummaryDto(dtos.get(0), 1001L, "test-1@mail.com", "first last");
         assertUserSummaryDto(dtos.get(1), 1002L, "test-2@mail.com", "");
@@ -62,15 +62,5 @@ public class UserModelToSummaryDtoConverterUnitTest
         assertThat(dto.getId(), is(id));
         assertThat(dto.getEmail(), is(email));
         assertThat(dto.getName(), is(name));
-    }
-
-    private UserModel createUserModel(long id, String email, String first, String last)
-    {
-        UserModel model = new UserModel();
-        model.setId(id);
-        model.setEmail(email);
-        model.setFirstName(first);
-        model.setLastName(last);
-        return model;
     }
 }
