@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC "-//Puppy Crawl//DTD Import Control 1.0//EN" "http://www.puppycrawl.com/dtds/import_control_1_0.dtd">
+
+<import-control pkg="au.id.hazelwood.idms">
+    <!-- Java& J2EE -->
+    <allow pkg="java"/>
+    <allow pkg="javax"/>
+
+    <!-- Apache/Google commons -->
+    <allow pkg="com.google.common"/>
+    <allow pkg="org.apache.commons.lang3"/>
+
+    <!-- Logging -->
+    <allow class="org.slf4j.Logger"/>
+    <allow class="org.slf4j.LoggerFactory"/>
+
+    <!-- Spring -->
+    <allow class="org.springframework.beans.factory.annotation.Autowired"/>
+    <allow class="org.springframework.beans.factory.annotation.Qualifier"/>
+    <allow class="org.springframework.beans.factory.annotation.Value"/>
+
+    <!-- Test imports -->
+    <allow pkg="com.google.code.beanmatchers.BeanMatchers"/>
+    <allow pkg="org.hamcrest.MatcherAssert"/>
+    <allow pkg="org.hamcrest.Matchers"/>
+    <allow pkg="org.mockito"/>
+    <allow pkg="org.springframework.test"/>
+    <allow pkg="org.springframework.mock.web"/>
+    <!-- Force use of hamcrest assert not junit asserts so only junit annotations allowed -->
+    <allow class="org.junit.BeforeClass"/>
+    <allow class="org.junit.AfterClass"/>
+    <allow class="org.junit.Before"/>
+    <allow class="org.junit.After"/>
+    <allow class="org.junit.Test"/>
+    <allow class="org.junit.Ignore"/>
+    <allow class="org.junit.FixMethodOrder"/>
+    <allow class="org.junit.runner.RunWith"/>
+    <allow class="org.junit.runners.MethodSorters"/>
+
+    <subpackage name="web">
+        <subpackage name="dto">
+            <allow pkg="com.wordnik.swagger.annotations"/>
+
+            <subpackage name="framework">
+            </subpackage>
+
+            <subpackage name="user">
+                <allow pkg="au.id.hazelwood.idms.web.dto.framework"/>
+            </subpackage>
+        </subpackage>
+
+        <subpackage name="controller">
+            <allow pkg="com.wordnik.swagger.annotations"/>
+            <allow pkg="org.springframework.web.bind.annotation"/>
+            <allow class="org.springframework.stereotype.Controller"/>
+            <allow class="org.springframework.stereotype.Component"/>
+            <allow class="org.springframework.http.MediaType"/>
+
+            <subpackage name="framework">
+                <allow pkg="org.springframework.http"/>
+                <allow pkg="au.id.hazelwood.idms.web.exception"/>
+                <allow class="org.springframework.web.context.request.WebRequest"/>
+                <allow class="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler"/>
+            </subpackage>
+
+            <subpackage name="doc">
+                <allow pkg="com.wordnik.swagger.model"/>
+                <allow class="com.knappsack.swagger4springweb.controller.ApiDocumentationController"/>
+
+                <!-- Test Only -->
+                <allow class="org.springframework.web.context.WebApplicationContext"/>
+            </subpackage>
+
+            <subpackage name="user">
+                <allow pkg="au.id.hazelwood.idms.model.user"/>
+                <allow pkg="au.id.hazelwood.idms.service.user"/>
+                <allow pkg="au.id.hazelwood.idms.web.dto.user"/>
+                <allow pkg="au.id.hazelwood.idms.web.exception"/>
+            </subpackage>
+        </subpackage>
+
+        <subpackage name="filter">
+            <allow class="org.springframework.web.filter.OncePerRequestFilter"/>
+        </subpackage>
+    </subpackage>
+
+</import-control>

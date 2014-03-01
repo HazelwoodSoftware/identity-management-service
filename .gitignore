@@ -4,3 +4,6 @@
 
 # Ignore Maven target directory
 target/
+
+# Ignore tmp directory
+.tmp
