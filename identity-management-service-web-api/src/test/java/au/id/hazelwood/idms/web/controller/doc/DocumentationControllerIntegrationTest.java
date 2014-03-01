@@ -45,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("dev")
 @WebAppConfiguration
-@ContextHierarchy({@ContextConfiguration("classpath:au/id/hazelwood/idms/application-context.xml"),
+@ContextHierarchy({@ContextConfiguration("classpath:au/id/hazelwood/idms/application-context-mock.xml"),
                    @ContextConfiguration("classpath:au/id/hazelwood/idms/web-context.xml")})
 public class DocumentationControllerIntegrationTest
 {
