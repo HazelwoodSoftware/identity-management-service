@@ -21,7 +21,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <context:property-placeholder location="classpath:au/id/hazelwood/idms/liquibase.properties" />
+    <context:property-placeholder location="classpath:au/id/hazelwood/idms/liquibase.properties" ignore-unresolvable="true"/>
 
     <!-- Liquibase -->
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
