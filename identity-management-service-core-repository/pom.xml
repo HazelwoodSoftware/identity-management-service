@@ -77,9 +77,6 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
             <plugin>
-                <artifactId>maven-pmd-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
             </plugin>
@@ -145,24 +142,6 @@
                     <reportSet>
                         <reports>
                             <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                    <linkXRef>false</linkXRef>
-                    <printFailingErrors>true</printFailingErrors>
-                    <includeTests>true</includeTests>
-                    <rulesets>
-                        <ruleset>au/id/hazelwood/idms/pmd-ruleset.xml</ruleset>
-                    </rulesets>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>pmd</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -338,6 +317,7 @@
         <dependency>
             <groupId>net.sourceforge.cobertura</groupId>
             <artifactId>cobertura</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
