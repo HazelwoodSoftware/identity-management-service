@@ -20,6 +20,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -35,6 +36,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("dev")
 @ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test.xml")
 @TransactionConfiguration
 @Transactional
@@ -46,14 +48,14 @@ public class UserServiceIntegrationTest
     @Test
     public void shouldFindAllUsers() throws Exception
     {
-        assertThat(userService.findAllUsers().size(), is(10));
+        assertThat(userService.findAllUsers().size(), is(2));
     }
 
     @Test
     public void shouldFindUserById() throws Exception
     {
         assertThat(userService.findUserById(0L), nullValue());
-        assertThat(userService.findUserById(1L), hasProperty("email", equalTo("test-01@hazelwood.id.au")));
+        assertThat(userService.findUserById(1001L), hasProperty("email", equalTo("admin@hazelwood.id.au")));
     }
 
     @Test
@@ -61,6 +63,6 @@ public class UserServiceIntegrationTest
     {
         assertThat(userService.findUserByEmail(""), nullValue());
         assertThat(userService.findUserByEmail(null), nullValue());
-        assertThat(userService.findUserByEmail("test-01@hazelwood.id.au"), hasProperty("id", equalTo(1L)));
+        assertThat(userService.findUserByEmail("admin@hazelwood.id.au"), hasProperty("id", equalTo(1001L)));
     }
 }

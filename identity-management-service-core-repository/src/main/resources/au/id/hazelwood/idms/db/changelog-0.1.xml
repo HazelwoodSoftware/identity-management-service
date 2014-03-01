@@ -21,7 +21,7 @@
     <changeSet id="0.1.0.1" author="Ricky Hazelwood" context="production">
         <comment>Create initial users table</comment>
         <createTable tableName="users">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true" startWith="1001">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
             </column>
             <column name="email" type="varchar(254)">
