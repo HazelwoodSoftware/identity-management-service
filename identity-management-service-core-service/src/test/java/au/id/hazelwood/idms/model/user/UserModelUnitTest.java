@@ -32,19 +32,19 @@ import static org.hamcrest.Matchers.allOf;
 public class UserModelUnitTest
 {
     @Test
-    public void testConstructor()
+    public void shouldHaveValidConstructor()
     {
         assertThat(UserModel.class, hasValidBeanConstructor());
     }
 
     @Test
-    public void testGettersAndSetters()
+    public void shouldHaveValidGettersAndSetters()
     {
         assertThat(UserModel.class, hasValidGettersAndSetters());
     }
 
     @Test
-    public void testEqualsHashCodeAndToString()
+    public void shouldHaveValidEqualsHashCodeAndToString()
     {
         assertThat(UserModel.class, allOf(hasValidBeanHashCodeExcluding("id"), hasValidBeanEqualsExcluding("id"), hasValidBeanToStringExcluding()));
     }

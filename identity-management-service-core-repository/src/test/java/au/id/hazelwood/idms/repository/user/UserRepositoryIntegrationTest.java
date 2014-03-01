@@ -55,14 +55,14 @@ public class UserRepositoryIntegrationTest
     }
 
     @Test
-    public void testDeleteAll() throws Exception
+    public void shouldDeleteAll() throws Exception
     {
         userRepository.deleteAll();
         assertThat(userRepository.count(), is(0L));
     }
 
     @Test
-    public void testFindOneByEmail() throws Exception
+    public void shouldFindOneByEmail() throws Exception
     {
         assertThat(userRepository.findOneByEmail(""), nullValue());
         assertThat(userRepository.findOneByEmail(null), nullValue());
@@ -71,7 +71,7 @@ public class UserRepositoryIntegrationTest
     }
 
     @Test
-    public void testCreateAndDelete() throws Exception
+    public void shouldCreateAndDelete() throws Exception
     {
         long initialCount = userRepository.count();
 
@@ -94,7 +94,7 @@ public class UserRepositoryIntegrationTest
     }
 
     @Test
-    public void testValidationError() throws Exception
+    public void shouldGetValidationError() throws Exception
     {
         try
         {

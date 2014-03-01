@@ -44,20 +44,20 @@ public class UserServiceIntegrationTest
     private UserService userService;
 
     @Test
-    public void testFindAllUsers() throws Exception
+    public void shouldFindAllUsers() throws Exception
     {
         assertThat(userService.findAllUsers().size(), is(10));
     }
 
     @Test
-    public void testFindUserById() throws Exception
+    public void shouldFindUserById() throws Exception
     {
         assertThat(userService.findUserById(0L), nullValue());
         assertThat(userService.findUserById(1L), hasProperty("email", equalTo("test-01@hazelwood.id.au")));
     }
 
     @Test
-    public void testFindUserByEmail() throws Exception
+    public void shouldFindUserByEmail() throws Exception
     {
         assertThat(userService.findUserByEmail(""), nullValue());
         assertThat(userService.findUserByEmail(null), nullValue());

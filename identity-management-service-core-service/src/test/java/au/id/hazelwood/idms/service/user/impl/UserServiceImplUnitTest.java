@@ -60,7 +60,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void testFindAllDelegatesToUserRepository()
+    public void shouldFindAllDelegatesToUserRepository()
     {
         when(userRepository.findAll()).thenReturn(Collections.<UserEntity>emptyList());
 
@@ -73,7 +73,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void testFindAll()
+    public void shouldFindAll()
     {
         UserEntity entityOne = mock(UserEntity.class);
         UserEntity entityTwo = mock(UserEntity.class);
@@ -95,7 +95,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void testFindUserByIdDelegatesToUserRepository()
+    public void shouldFindUserByIdDelegatesToUserRepository()
     {
         Long id = 1L;
         when(userRepository.findOne(id)).thenReturn(null);
@@ -109,7 +109,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void testFindUserById()
+    public void shouldFindUserById()
     {
         Long id = 1L;
         UserEntity entity = mock(UserEntity.class);
@@ -126,7 +126,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void testFindUserByEmailDelegatesToUserRepository()
+    public void shouldFindUserByEmailDelegatesToUserRepository()
     {
         String email = "test@mail.com";
         when(userRepository.findOneByEmail(email)).thenReturn(null);
@@ -139,7 +139,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void testFindUserByEmail()
+    public void shouldFindUserByEmail()
     {
         String email = "test@mail.com";
         UserEntity entity = mock(UserEntity.class);

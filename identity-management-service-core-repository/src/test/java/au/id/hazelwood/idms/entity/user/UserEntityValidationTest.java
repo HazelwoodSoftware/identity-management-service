@@ -46,14 +46,14 @@ public class UserEntityValidationTest
     }
 
     @Test
-    public void testValidationSuccess() throws Exception
+    public void shouldValidateUserEntity() throws Exception
     {
         UserEntity entity = new UserEntity("ricky@hazelwood.id.au", "Ricky", "Hazelwood");
         assertThat(validator.validate(entity).isEmpty(), is(true));
     }
 
     @Test
-    public void testEmailValidation() throws Exception
+    public void shouldValidateEmail() throws Exception
     {
         assertValidation("email", "abcdefghijklmnopqrtsuvwxyz@b.com");
         assertValidation("email", "1234567890@b.com");
@@ -78,7 +78,7 @@ public class UserEntityValidationTest
     }
 
     @Test
-    public void testFirstName() throws Exception
+    public void shouldValidateFirstName() throws Exception
     {
         assertValidation("firstName", "Ricky");
         assertValidation("firstName", "Ricky Jack");
@@ -94,7 +94,7 @@ public class UserEntityValidationTest
     }
 
     @Test
-    public void testLastName() throws Exception
+    public void shouldValidateLastName() throws Exception
     {
         assertValidation("lastName", "Hazelwood");
         assertValidation("lastName", "Hazel Wood");
