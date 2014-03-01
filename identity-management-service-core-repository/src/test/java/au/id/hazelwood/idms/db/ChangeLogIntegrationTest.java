@@ -20,8 +20,12 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import javax.annotation.Resource;
 
@@ -30,7 +34,9 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("dev")
 @ContextConfiguration(locations = "classpath:au/id/hazelwood/idms/application-context-test.xml")
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class})
 public class ChangeLogIntegrationTest
 {
     @Resource

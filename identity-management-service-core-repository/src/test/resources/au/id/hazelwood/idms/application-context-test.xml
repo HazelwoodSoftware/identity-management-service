@@ -16,15 +16,11 @@
   ~ limitations under the License.
   -->
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <import resource="classpath:au/id/hazelwood/idms/application-context-datasource.xml"/>
     <import resource="classpath:au/id/hazelwood/idms/application-context-liquibase.xml"/>
     <import resource="classpath:au/id/hazelwood/idms/application-context-repository.xml"/>
-
-    <!-- Data Source -->
-    <jdbc:embedded-database id="dataSource" type="DERBY"/>
 
 </beans>
