@@ -6,4 +6,4 @@
 target/
 
 # Ignore tmp directory
-.tmp
+.tmp/
