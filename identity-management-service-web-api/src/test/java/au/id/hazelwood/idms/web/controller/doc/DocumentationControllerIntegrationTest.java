@@ -24,7 +24,9 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,8 +43,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("dev")
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:/au/id/hazelwood/idms/application-context.xml", "classpath:/au/id/hazelwood/idms/web-context.xml"})
+@ContextHierarchy({@ContextConfiguration("classpath:au/id/hazelwood/idms/application-context.xml"),
+                   @ContextConfiguration("classpath:au/id/hazelwood/idms/web-context.xml")})
 public class DocumentationControllerIntegrationTest
 {
     @Autowired

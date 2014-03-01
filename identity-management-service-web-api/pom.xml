@@ -197,6 +197,10 @@
         </dependency>
         <!-- Apache/Google Commons -->
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
@@ -223,13 +227,18 @@
             <artifactId>jackson-databind</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- swagger4spring-web needs to be before swagger-core so that correct version of jackson-scala-module is added to classpath -->
+        <dependency>
+            <groupId>com.knappsack</groupId>
+            <artifactId>swagger4spring-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.wordnik</groupId>
             <artifactId>swagger-annotations_2.10</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.knappsack</groupId>
-            <artifactId>swagger4spring-web</artifactId>
+            <groupId>com.wordnik</groupId>
+            <artifactId>swagger-core_2.10</artifactId>
         </dependency>
         <!-- Validation -->
         <dependency>
