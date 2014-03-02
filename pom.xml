@@ -104,11 +104,6 @@
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>2.4</version>
-                    <configuration>
-                        <archiveClasses>true</archiveClasses>
-                        <attachClasses>true</attachClasses>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
@@ -249,6 +244,8 @@
                                         <fileset dir="${parent.directory}/identity-management-service-core-repository/src/main/java"/>
                                         <!--suppress MavenModelInspection -->
                                         <fileset dir="${parent.directory}/identity-management-service-core-service/src/main/java"/>
+                                        <!--suppress MavenModelInspection -->
+                                        <fileset dir="${parent.directory}/identity-management-service-web-api/src/main/java"/>
                                     </cobertura-report>
                                 </target>
                             </configuration>
