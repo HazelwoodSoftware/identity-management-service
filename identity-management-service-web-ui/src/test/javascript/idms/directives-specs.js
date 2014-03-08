@@ -22,7 +22,7 @@ define([ 'angular', 'angular-mocks', 'idms/app' ], function (angular, mocks)
     {
         beforeEach(mocks.module('idms.directives'));
 
-        describe('app-version', function ()
+        describe('idms-app-version', function ()
         {
             it('should print current version', function ()
             {
@@ -32,7 +32,7 @@ define([ 'angular', 'angular-mocks', 'idms/app' ], function (angular, mocks)
                 });
                 mocks.inject(function ($compile, $rootScope)
                 {
-                    var element = $compile('<span app-version></span>')($rootScope);
+                    var element = $compile('<span data-idms-app-version></span>')($rootScope);
                     expect(element.text()).toEqual('TEST_VER');
                 });
             });

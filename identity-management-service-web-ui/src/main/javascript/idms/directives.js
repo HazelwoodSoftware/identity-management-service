@@ -20,7 +20,7 @@ define(['angular', 'idms/services'], function (angular)
 
     /* Directives */
     angular.module('idms.directives', ['idms.services'])
-        .directive('appVersion', ['version', function (version)
+        .directive('idmsAppVersion', ['version', function (version)
         {
             return function (scope, elm)
             {
