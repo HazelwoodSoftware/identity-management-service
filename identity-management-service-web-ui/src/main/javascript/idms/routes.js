@@ -21,11 +21,11 @@ define(['angular-route'], function ()
     return ['$routeProvider', function ($routeProvider)
     {
         $routeProvider.when('/home', {
-            templateUrl: 'javascripts/idms/home/home.html',
+            templateUrl: 'views/home/home.html',
             controller: 'HomeController'
         });
         $routeProvider.when('/users', {
-            templateUrl: 'javascripts/idms/users/users.html',
+            templateUrl: 'views/users/users.html',
             controller: 'UsersController'
         });
         $routeProvider.otherwise({redirectTo: '/home'});

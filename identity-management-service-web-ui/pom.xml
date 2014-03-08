@@ -54,6 +54,8 @@
                 <groupId>com.github.searls</groupId>
                 <artifactId>jasmine-maven-plugin</artifactId>
                 <configuration>
+                    <srcDirectoryName>javascripts</srcDirectoryName>
+                    <specDirectoryName>specs</specDirectoryName>
                     <preloadSources>
                         <source>lib/requirejs/require.js</source>
                     </preloadSources>
