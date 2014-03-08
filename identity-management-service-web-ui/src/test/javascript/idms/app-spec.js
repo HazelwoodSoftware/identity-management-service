@@ -14,21 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular_route'], function ()
+define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
 {
     'use strict';
 
-    return ['$routeProvider', function ($routeProvider)
+    describe('idms.app', function ()
     {
-        $routeProvider.when('/home', {
-            templateUrl: 'views/home/home.html',
-            controller: 'HomeController'
-        });
-        $routeProvider.when('/users', {
-            templateUrl: 'views/users/users.html',
-            controller: 'UsersController'
-        });
-        $routeProvider.otherwise({redirectTo: '/home'});
-    }];
+        beforeEach(mocks.module('idms'));
 
+        describe('routes', function ()
+        {
+            it('should map to controllers with correct title and template', mocks.inject(function ($route)
+            {
+                expect($route.routes['/home'].controller).toBe('HomeController');
+                expect($route.routes['/home'].templateUrl).toEqual('views/home/home.html');
+
+                expect($route.routes['/users'].controller).toEqual('UsersController');
+                expect($route.routes['/users'].templateUrl).toEqual('views/users/users.html');
+
+                // otherwise redirect to
+                expect($route.routes[null].redirectTo).toEqual('/home');
+            }));
+        });
+    });
 });

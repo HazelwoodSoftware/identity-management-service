@@ -14,12 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/routes', 'idms/services', 'idms/directives', 'idms/filters', 'idms/controllers'],
-    function (angular, routes)
+define(['angular', 'angular_route', 'idms/services', 'idms/directives', 'idms/filters', 'idms/controllers'],
+    function (angular)
     {
         'use strict';
 
         // Declare app level module which depends on filters, and services
-        return angular.module('idms', ['ngRoute', 'idms.filters', 'idms.services', 'idms.directives', 'idms.controllers']).config(routes);
+        return angular.module('idms', ['ngRoute', 'idms.services', 'idms.directives', 'idms.filters', 'idms.controllers'])
+            .config(['$routeProvider', function ($routeProvider)
+            {
+                $routeProvider.when('/home', {
+                    templateUrl: 'views/home/home.html',
+                    controller: 'HomeController'
+                });
+                $routeProvider.when('/users', {
+                    templateUrl: 'views/users/users.html',
+                    controller: 'UsersController'
+                });
+                $routeProvider.otherwise({redirectTo: '/home'});
+            }]);
     }
 );

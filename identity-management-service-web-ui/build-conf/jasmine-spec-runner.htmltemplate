@@ -25,13 +25,16 @@
     <script type="text/javascript">
         window.onerror = function (msg, url, line)
         {
-            var jserror = document.head.getAttribute('jmp_jserror') || '';
-            if (jserror)
+            if ('$reporter$' == 'HtmlReporter')
             {
-                jserror += ':!:';
+                var jserror = document.head.getAttribute('jmp_jserror') || '';
+                if (jserror)
+                {
+                    jserror += ':!:';
+                }
+                jserror += msg;
+                document.head.setAttribute('jmp_jserror', jserror);
             }
-            jserror += msg;
-            document.head.setAttribute('jmp_jserror', jserror);
         };
     </script>
     $cssDependencies$
@@ -58,18 +61,13 @@
             },
             shim: {
                 'bootstrap': ['jquery'],
-                'angular': {exports: 'angular'},
+                'angular': {deps: ['jquery'], exports: 'angular'},
                 'angular_route': ['angular'],
                 'angular_mocks': {
                     deps: ['angular'],
                     exports: 'angular.mock'
                 }
             },
-            priority: [
-                'jquery',
-                'bootstrap',
-                'angular'
-            ],
             $if(customRunnerConfiguration)$
                 $customRunnerConfiguration$
             $endif$

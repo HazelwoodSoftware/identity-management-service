@@ -43,15 +43,10 @@ require.config({
     },
     shim: {
         'bootstrap': ['jquery'],
-        'angular': {exports: 'angular'},
+        'angular': {deps: ['jquery'], exports: 'angular'},
         'angular_route': ['angular'],
         'angular_resource': ['angular']
-    },
-    priority: [
-        'jquery',
-        'bootstrap',
-        'angular'
-    ]
+    }
 });
 
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap

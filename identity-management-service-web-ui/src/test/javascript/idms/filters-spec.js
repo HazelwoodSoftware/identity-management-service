@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define([ 'angular', 'angular_mocks', 'idms/app' ], function (angular, mocks)
+define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
 {
     'use strict';
 
-    describe('filter', function ()
+    describe('idms.filter', function ()
     {
         beforeEach(mocks.module('idms.filters'));
         describe('interpolate', function ()
