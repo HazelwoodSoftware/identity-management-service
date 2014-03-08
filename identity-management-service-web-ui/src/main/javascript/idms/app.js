@@ -24,14 +24,30 @@ define(['angular', 'angular_route', 'idms/services', 'idms/directives', 'idms/fi
             .config(['$routeProvider', function ($routeProvider)
             {
                 $routeProvider.when('/home', {
+                    title: 'Home',
+                    menu: 'Home',
                     templateUrl: 'views/home/home.html',
                     controller: 'HomeController'
                 });
                 $routeProvider.when('/users', {
+                    title: 'Users',
+                    menu: 'Users',
                     templateUrl: 'views/users/users.html',
                     controller: 'UsersController'
                 });
                 $routeProvider.otherwise({redirectTo: '/home'});
+            }])
+            .run(['$rootScope', function ($rootScope)
+            {
+                $rootScope.page = {
+                    title: 'Home',
+                    menu: 'Home'
+                };
+                $rootScope.$on('$routeChangeSuccess', function (event, current)
+                {
+                    $rootScope.page.title = current.title;
+                    $rootScope.page.menu = current.menu;
+                });
             }]);
     }
 );

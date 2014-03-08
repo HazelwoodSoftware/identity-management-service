@@ -24,16 +24,35 @@ define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
 
         describe('routes', function ()
         {
-            it('should map to controllers with correct title and template', mocks.inject(function ($route)
+            it('should map to controllers with title, menu and template config', mocks.inject(function ($route)
             {
+                expect($route.routes['/home'].title).toEqual('Home');
+                expect($route.routes['/home'].menu).toEqual('Home');
                 expect($route.routes['/home'].controller).toBe('HomeController');
                 expect($route.routes['/home'].templateUrl).toEqual('views/home/home.html');
 
+                expect($route.routes['/users'].title).toEqual('Users');
+                expect($route.routes['/users'].menu).toEqual('Users');
                 expect($route.routes['/users'].controller).toEqual('UsersController');
                 expect($route.routes['/users'].templateUrl).toEqual('views/users/users.html');
 
                 // otherwise redirect to
                 expect($route.routes[null].redirectTo).toEqual('/home');
+            }));
+        });
+
+        describe('page', function ()
+        {
+            it('should set default tile and menu', mocks.inject(function ($rootScope)
+            {
+                expect($rootScope.page.title).toEqual('Home');
+                expect($rootScope.page.menu).toEqual('Home');
+            }));
+            it('should set tile and menu on $routeChangeSuccess', mocks.inject(function ($rootScope)
+            {
+                $rootScope.$broadcast("$routeChangeSuccess", {title:"title-test",menu:"menu-test"});
+                expect($rootScope.page.title).toEqual('title-test');
+                expect($rootScope.page.menu).toEqual('menu-test');
             }));
         });
     });
