@@ -140,6 +140,25 @@
                     <artifactId>maven-surefire-report-plugin</artifactId>
                     <version>2.16</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.github.searls</groupId>
+                    <artifactId>jasmine-maven-plugin</artifactId>
+                    <version>1.3.1.4</version>
+                    <configuration>
+                        <srcDirectoryName>${project.artifactId}/javascripts</srcDirectoryName>
+                        <specDirectoryName>${project.artifactId}/specs</specDirectoryName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <keepServerAlive>true</keepServerAlive>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <!-- Code Coverage Plugins -->
                 <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
@@ -262,6 +281,27 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>com.github.timurstrekalov</groupId>
+                    <artifactId>saga-maven-plugin</artifactId>
+                    <version>1.5.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>coverage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <!--suppress MavenModelInspection -->
+                        <baseDir>http://localhost:${jasmine.serverPort}</baseDir>
+                        <outputDir>${project.reporting.outputDirectory}/coverage</outputDir>
+                        <noInstrumentPatterns>
+                            <pattern>.*/lib/.*</pattern>
+                            <pattern>.*/.*-specs.js</pattern>
+                        </noInstrumentPatterns>
+                    </configuration>
+                </plugin>
                 <!-- QA configuration -->
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -336,6 +376,26 @@
                     <artifactId>jdepend-maven-plugin</artifactId>
                     <version>2.0-beta-2</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.cj.jshintmojo</groupId>
+                    <artifactId>jshint-maven-plugin</artifactId>
+                    <version>1.3.0</version>
+                    <configuration>
+                        <options>
+                            bitwise:true,camelcase:true,curly:true,eqeqeq:true,forin:true,newcap:true,noarg:true,noempty:true,
+                            nonew:true,trailing:true,latedef:nofunc,unused:vars,indent:4,maxlen:150,browser:true
+                        </options>
+                        <globals>require,$,devel</globals>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>lint</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
                 <!-- Site Generation Plugins -->
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -371,18 +431,7 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>9.1.0.v20131115</version>
                     <configuration>
-                        <contextPath>/</contextPath>
                         <scanIntervalSeconds>5</scanIntervalSeconds>
-                        <systemProperties>
-                            <systemProperty>
-                                <name>derby.system.home</name>
-                                <value>${basedir}/target/derby</value>
-                            </systemProperty>
-                            <systemProperty>
-                                <name>derby.stream.error.method</name>
-                                <value>org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream</value>
-                            </systemProperty>
-                        </systemProperties>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -404,11 +453,6 @@
                             <groupId>log4j</groupId>
                             <artifactId>log4j</artifactId>
                             <version>${log4j.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.derby</groupId>
-                            <artifactId>derby</artifactId>
-                            <version>${derby.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -443,6 +487,10 @@
                 <configuration>
                     <linkXRef>false</linkXRef>
                     <aggregate>true</aggregate>
+                    <reportsDirectories>
+                        <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                        <reportsDirectory>${project.build.directory}/jasmine</reportsDirectory>
+                    </reportsDirectories>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -763,6 +811,7 @@
         <module>identity-management-service-core-repository</module>
         <module>identity-management-service-core-service</module>
         <module>identity-management-service-web-api</module>
+        <module>identity-management-service-web-ui</module>
     </modules>
 
     <properties>

@@ -30,6 +30,7 @@
     </skin>
     <body>
         <breadcrumbs>
+            <item name="${project.parent.name}" href="../index.html"/>
             <item name="${project.name}" href="index.html"/>
         </breadcrumbs>
         <menu name="Overview">
@@ -43,16 +44,14 @@
                 <item name="Project License" href="license.html"/>
                 <item name="Source Repository" href="source-repository.html"/>
                 <item name="Continuous Integration" href="integration.html"/>
-                <item name="Dependency Management" href="dependency-management.html"/>
+                <item name="Dependencies" href="dependencies.html"/>
                 <item name="Plugins" href="plugins.html"/>
             </item>
             <item name="Project Reports" href="project-reports.html">
                 <item name="Surefire Report" href="surefire-report.html"/>
-                <item name="Cobertura Report" href="cobertura-report.html"/>
                 <item name="Saga Report" href="saga-report.html"/>
             </item>
         </menu>
-        <menu ref="modules"/>
     </body>
     <custom>
         <fluidoSkin>
