@@ -1,4 +1,14 @@
-<div class="page-header">
-    <h1>Home</h1>
+<div class="jumbotron">
+    <h1>Hazelwood IDMS</h1>
+    <p>Hazelwood IDMS provides a basic identity management solution, making it easier to secure and manage access to web applications.</p>
+    <p><a class="btn btn-primary btn-lg">Learn more</a></p>
 </div>
-<p>Welcome! This is the partial for Home.</p>
+<p class="lead text-center">Thanks for stopping by, here is a random cat picture for your viewing pleasure.</p>
+<div class="cat-pic-container">
+    <div class="cat-pic">
+        <div class="well"><img src="" data-ng-src="{{url}}"></div>
+        <div class="well">
+            <button type="button" class="btn btn-default btn-lg btn-block" data-ng-click="updateUrl();">New random picture</button>
+        </div>
+    </div>
+</div>

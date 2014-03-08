@@ -20,6 +20,14 @@ define(['angular'], function (angular)
 
     /* Controllers */
     return angular.module('idms.controllers', [])
-        .controller('HomeController', [function () {}])
+        .controller('HomeController', ['$scope', function ($scope)
+        {
+            $scope.updateUrl = function ()
+            {
+                $scope.url = "http://thecatapi.com/api/images/get?format=src&type=png&cachebuster=" + Math.ceil(Math.random() * 1000);
+            };
+
+            $scope.updateUrl();
+        }])
         .controller('UsersController', [function () {}]);
 });

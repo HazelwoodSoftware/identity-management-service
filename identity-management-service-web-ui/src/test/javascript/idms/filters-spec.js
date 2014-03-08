@@ -21,6 +21,7 @@ define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
     describe('idms.filter', function ()
     {
         beforeEach(mocks.module('idms.filters'));
+
         describe('interpolate', function ()
         {
             beforeEach(mocks.module(function ($provide)
