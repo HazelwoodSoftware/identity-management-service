@@ -294,7 +294,7 @@
                         <outputDir>${project.reporting.outputDirectory}/coverage</outputDir>
                         <noInstrumentPatterns>
                             <pattern>.*/lib/.*</pattern>
-                            <pattern>.*/.*-specs.js</pattern>
+                            <pattern>.*/.*-spec.js</pattern>
                         </noInstrumentPatterns>
                     </configuration>
                 </plugin>
