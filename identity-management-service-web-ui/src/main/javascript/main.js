@@ -16,7 +16,7 @@
  */
 require.config({
     paths: {
-        'require-text': [
+        'require_text': [
             '//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.10/text.min',
             'lib/requirejs/require-text'
         ],
@@ -32,11 +32,11 @@ require.config({
             'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min',
             'lib/angularjs/angular'
         ],
-        'angular-route': [
+        'angular_route': [
             'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min',
             'lib/angularjs/angular-route'
         ],
-        'angular-resource': [
+        'angular_resource': [
             'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-resource.min',
             'lib/angularjs/angular-resource'
         ]
@@ -44,8 +44,8 @@ require.config({
     shim: {
         'bootstrap': ['jquery'],
         'angular': {exports: 'angular'},
-        'angular-route': ['angular'],
-        'angular-resource': ['angular']
+        'angular_route': ['angular'],
+        'angular_resource': ['angular']
     },
     priority: [
         'jquery',

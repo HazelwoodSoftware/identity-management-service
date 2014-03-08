@@ -49,18 +49,18 @@
 
         var configuration = {
             paths: {
-                'require-text': 'lib/requirejs/require-text',
+                'require_text': 'lib/requirejs/require-text',
                 'jquery': 'lib/jquery/jquery',
                 'bootstrap': 'lib/bootstrap/bootstrap',
                 'angular': 'lib/angularjs/angular',
-                'angular-route': 'lib/angularjs/angular-route',
-                'angular-mocks': '/$specDir$/lib/angularjs/angular-mocks'
+                'angular_route': 'lib/angularjs/angular-route',
+                'angular_mocks': '/$specDir$/lib/angularjs/angular-mocks'
             },
             shim: {
                 'bootstrap': ['jquery'],
                 'angular': {exports: 'angular'},
-                'angular-route': ['angular'],
-                'angular-mocks': {
+                'angular_route': ['angular'],
+                'angular_mocks': {
                     deps: ['angular'],
                     exports: 'angular.mock'
                 }
