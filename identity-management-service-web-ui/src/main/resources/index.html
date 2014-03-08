@@ -14,48 +14,13 @@
 </head>
 <body role="document">
     <nav id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <a href="#" class="navbar-brand"><i class="fa fa-cogs fa-fw"></i> Hazelwood IDMS</a>
-                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-top">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div id="navbar-top" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#/home"><i class="fa fa-home fa-fw"></i> Home</a></li>
-                    <li><a href="#/users"><i class="fa fa-user fa-fw"></i> Users</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><i class="fa fa-lock fa-fw"></i> Login/Logout</a></li>
-                </ul>
-            </div>
-        </div>
+        <div class="container" data-ng-include="'javascripts/idms/layout/header.html'"></div>
     </nav>
     <main id="main" role="main">
         <div class="container" data-ng-view></div>
     </main>
     <footer id="footer" class="navbar navbar-inverse navbar-static-top" role="footer">
-        <div class="container">
-            <div class="navbar-header">
-                <a href="#" class="navbar-brand"><i class="fa fa-cogs fa-fw"></i> Hazelwood IDMS</a>
-                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-bottom">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div id="navbar-bottom" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#"><i class="fa fa-globe fa-fw"></i> About</a></li>
-                    <li><a href="#"><i class="fa fa-phone fa-fw"></i> Contact</a></li>
-                    <li><a href="#"><i class="fa fa-shield fa-fw"></i> Privacy policy</a></li>
-                </ul>
-                <p class="navbar-text navbar-right"><i class="fa fa-book fa-fw"></i> Version : <span data-idms-app-version></span></p>
-            </div>
-        </div>
+        <div class="container" data-ng-include="'javascripts/idms/layout/footer.html'"></div>
     </footer>
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js" data-main="javascripts/main"></script>
