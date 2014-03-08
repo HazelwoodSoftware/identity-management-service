@@ -21,7 +21,7 @@
     $if(autoRefresh)$
     <meta http-equiv="refresh" content="$autoRefreshInterval$">
     $endif$
-    <title>Jasmine Spec Runner</title>
+    <title>IDMS Jasmine Runner</title>
     <script type="text/javascript">
         window.onerror = function (msg, url, line)
         {
