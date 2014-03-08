@@ -120,9 +120,27 @@
                     <stopKey>${project.name}</stopKey>
                     <stopPort>8083</stopPort>
                     <webApp>
+                        <defaultsDescriptor>${basedir}/jetty-conf/web-default.xml</defaultsDescriptor>
                         <extraClasspath>${basedir}/jetty-config/extra-classes/</extraClasspath>
                     </webApp>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>derby.system.home</name>
+                            <value>${basedir}/target/derby</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>derby.stream.error.method</name>
+                            <value>org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
