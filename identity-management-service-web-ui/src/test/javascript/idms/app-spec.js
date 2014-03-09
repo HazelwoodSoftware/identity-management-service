@@ -18,7 +18,7 @@ define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
 {
     'use strict';
 
-    describe('idms.app', function ()
+    describe('idms', function ()
     {
         beforeEach(mocks.module('idms'));
 

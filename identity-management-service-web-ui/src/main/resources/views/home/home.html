@@ -6,9 +6,11 @@
 <p class="lead text-center">Thanks for stopping by, here is a random cat picture for your viewing pleasure.</p>
 <div class="cat-pic-container">
     <div class="cat-pic">
-        <div class="well"><img src="" data-ng-src="{{url}}"></div>
         <div class="well">
-            <button type="button" class="btn btn-default btn-lg btn-block" data-ng-click="updateUrl();">New random picture</button>
+            <img src="" data-ng-src="{{url}}">
+        </div>
+        <div class="well">
+            <button type="button" class="btn btn-default btn-lg btn-block" data-ng-click="updateImg();">New random picture</button>
         </div>
     </div>
 </div>

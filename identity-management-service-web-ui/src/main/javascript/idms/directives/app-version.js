@@ -14,4 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/controllers/_define', 'idms/controllers/home', 'idms/controllers/users'], function () {});
+define(['angular', 'idms/directives/_define'], function (angular)
+{
+    'use strict';
+
+    /* Directives */
+    angular.module('idms.directives').directive('appVersion', ['version', function (version)
+    {
+        return function (scope, elm)
+        {
+            elm.text(version);
+        };
+    }]);
+});

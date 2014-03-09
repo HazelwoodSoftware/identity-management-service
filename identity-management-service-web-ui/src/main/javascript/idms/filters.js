@@ -14,17 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/services'], function (angular, services)
-{
-    'use strict';
-
-    /* Filters */
-    angular.module('idms.filters', ['idms.services'])
-        .filter('interpolate', ['version', function (version)
-        {
-            return function (text)
-            {
-                return String(text).replace(/\%VERSION\%/mg, version);
-            };
-        }]);
-});
+define(['idms/filters/_define', 'idms/filters/interpolate'], function () {});

@@ -14,28 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
+define(['angular', 'idms/services'], function (angular)
 {
     'use strict';
 
-    describe('idms.directives', function ()
-    {
-        beforeEach(mocks.module('idms.directives'));
-
-        describe('idms-app-version', function ()
-        {
-            it('should print current version', function ()
-            {
-                mocks.module(function ($provide)
-                {
-                    $provide.value('version', 'TEST_VER');
-                });
-                mocks.inject(function ($compile, $rootScope)
-                {
-                    var element = $compile('<span data-idms-app-version></span>')($rootScope);
-                    expect(element.text()).toEqual('TEST_VER');
-                });
-            });
-        });
-    });
+    /* Filters */
+    angular.module('idms.filters', ['idms.services']);
 });

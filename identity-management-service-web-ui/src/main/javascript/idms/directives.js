@@ -14,17 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/services'], function (angular)
-{
-    'use strict';
-
-    /* Directives */
-    angular.module('idms.directives', ['idms.services'])
-        .directive('idmsAppVersion', ['version', function (version)
-        {
-            return function (scope, elm)
-            {
-                elm.text(version);
-            };
-        }]);
-});
+define(['idms/directives/_define', 'idms/directives/app-version'], function () {});

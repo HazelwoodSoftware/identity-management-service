@@ -14,4 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/controllers/_define', 'idms/controllers/home', 'idms/controllers/users'], function () {});
+define(['angular', 'idms/services'], function (angular)
+{
+    'use strict';
+
+    /* Directives */
+    angular.module('idms.directives', ['idms.services']);
+});

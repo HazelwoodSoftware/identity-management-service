@@ -14,4 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/controllers/_define', 'idms/controllers/home', 'idms/controllers/users'], function () {});
+define(['angular', 'idms/filters/_define'], function (angular)
+{
+    'use strict';
+
+    /* Filters */
+    angular.module('idms.filters').filter('interpolate', ['version', function (version)
+    {
+        return function (text)
+        {
+            return String(text).replace(/\%VERSION\%/mg, version);
+        };
+    }]);
+});
