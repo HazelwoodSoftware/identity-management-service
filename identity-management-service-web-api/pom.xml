@@ -120,7 +120,7 @@
                     <stopKey>${project.name}</stopKey>
                     <stopPort>8083</stopPort>
                     <webApp>
-                        <defaultsDescriptor>${basedir}/jetty-conf/web-default.xml</defaultsDescriptor>
+                        <defaultsDescriptor>${basedir}/jetty-config/web-default.xml</defaultsDescriptor>
                         <extraClasspath>${basedir}/jetty-config/extra-classes/</extraClasspath>
                     </webApp>
                     <systemProperties>
