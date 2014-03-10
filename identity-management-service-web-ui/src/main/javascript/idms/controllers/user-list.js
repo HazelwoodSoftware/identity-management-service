@@ -14,4 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/controllers/_define', 'idms/controllers/home', 'idms/controllers/user-list', 'idms/controllers/user-edit'], function () {});
+define(['angular', 'idms/controllers/_define'], function (angular)
+{
+    'use strict';
+
+    /* Controllers */
+    return angular.module('idms.controllers').controller('UserListController', ['$scope', 'UserService', function ($scope, UserService)
+    {
+        $scope.users = UserService.query();
+        $scope.sort = 'name';
+    }]);
+});

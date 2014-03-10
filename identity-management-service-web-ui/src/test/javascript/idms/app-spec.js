@@ -33,8 +33,13 @@ define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
 
                 expect($route.routes['/users'].title).toEqual('Users');
                 expect($route.routes['/users'].menu).toEqual('Users');
-                expect($route.routes['/users'].controller).toEqual('UsersController');
-                expect($route.routes['/users'].templateUrl).toEqual('views/users/users.html');
+                expect($route.routes['/users'].controller).toEqual('UserListController');
+                expect($route.routes['/users'].templateUrl).toEqual('views/users/user-list.html');
+
+                expect($route.routes['/users/:userId'].title).toEqual('Edit user');
+                expect($route.routes['/users/:userId'].menu).toEqual('Users');
+                expect($route.routes['/users/:userId'].controller).toEqual('UserEditController');
+                expect($route.routes['/users/:userId'].templateUrl).toEqual('views/users/user-edit.html');
 
                 // otherwise redirect to
                 expect($route.routes[null].redirectTo).toEqual('/home');

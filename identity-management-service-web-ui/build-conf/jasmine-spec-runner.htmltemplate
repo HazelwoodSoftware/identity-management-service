@@ -57,12 +57,14 @@
                 'bootstrap': 'lib/bootstrap/bootstrap',
                 'angular': 'lib/angularjs/angular',
                 'angular_route': 'lib/angularjs/angular-route',
+                'angular_resource': 'lib/angularjs/angular-resource',
                 'angular_mocks': '/$specDir$/lib/angularjs/angular-mocks'
             },
             shim: {
                 'bootstrap': ['jquery'],
                 'angular': {deps: ['jquery'], exports: 'angular'},
                 'angular_route': ['angular'],
+                'angular_resource': ['angular'],
                 'angular_mocks': {
                     deps: ['angular'],
                     exports: 'angular.mock'

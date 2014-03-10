@@ -1,0 +1,29 @@
+<div class="page-header">
+    <h1>Edit user</h1>
+</div>
+<p class="lead">User details.</p>
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label for="email" class="col-sm-3 control-label">Email:</label>
+        <div class="col-sm-9">
+            <input id="email" type="text" class="form-control" data-ng-model="user.email">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="firstName" class="col-sm-3 control-label">First Name:</label>
+        <div class="col-sm-9">
+            <input id="firstName" type="text" class="form-control" data-ng-model="user.firstName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lastName" class="col-sm-3 control-label">Last Name:</label>
+        <div class="col-sm-9">
+            <input id="lastName" type="text" class="form-control" data-ng-model="user.lastName">
+        </div>
+    </div>
+</form>
+<br>
+<p class="text-right">
+    <button type="button" class="btn btn-primary" data-ng-click="save();">Save</button>
+    <button type="button" class="btn btn-default" data-ng-click="cancel();">Cancel</button>
+</p>

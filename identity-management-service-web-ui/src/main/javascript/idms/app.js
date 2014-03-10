@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'angular_route', 'idms/services', 'idms/directives', 'idms/filters', 'idms/controllers'],
+define(['angular', 'angular_route', 'idms/constants', 'idms/services', 'idms/directives', 'idms/filters', 'idms/controllers'],
     function (angular)
     {
         'use strict';
 
         // Declare app level module which depends on filters, and services
-        return angular.module('idms', ['ngRoute', 'idms.services', 'idms.directives', 'idms.filters', 'idms.controllers'])
+        return angular.module('idms', ['ngRoute', 'idms.constants', 'idms.services', 'idms.directives', 'idms.filters', 'idms.controllers'])
             .config(['$routeProvider', function ($routeProvider)
             {
                 $routeProvider.when('/home', {
@@ -32,8 +32,14 @@ define(['angular', 'angular_route', 'idms/services', 'idms/directives', 'idms/fi
                 $routeProvider.when('/users', {
                     title: 'Users',
                     menu: 'Users',
-                    templateUrl: 'views/users/users.html',
-                    controller: 'UsersController'
+                    templateUrl: 'views/users/user-list.html',
+                    controller: 'UserListController'
+                });
+                $routeProvider.when('/users/:userId', {
+                    title: 'Edit user',
+                    menu: 'Users',
+                    templateUrl: 'views/users/user-edit.html',
+                    controller: 'UserEditController'
                 });
                 $routeProvider.otherwise({redirectTo: '/home'});
             }])

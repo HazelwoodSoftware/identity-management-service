@@ -14,4 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/controllers/_define', 'idms/controllers/home', 'idms/controllers/user-list', 'idms/controllers/user-edit'], function () {});
+define(['angular', 'angular_resource', 'idms/services/_define'], function (angular)
+{
+    'use strict';
+
+    /* Services */
+    angular.module('idms.services').factory('UserService', ['$resource', 'CONFIG', function ($resource, CONFIG)
+    {
+        return $resource(CONFIG.apiUrl + '/users/:userId');
+    }]);
+});
