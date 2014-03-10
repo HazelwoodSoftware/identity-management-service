@@ -81,13 +81,16 @@ public class UserRepositoryIntegrationTest
     {
         long initialCount = userRepository.count();
 
-        UserEntity one = new UserEntity("one@hazelwood.id.au", "User", "One");
+        String email = "one@hazelwood.id.au";
+        String firstName = "User";
+        String lastName = "One";
+        UserEntity one = createUserEntity(email, firstName, lastName);
         userRepository.save(one);
         assertThat(userRepository.count(), is(initialCount + 1L));
         assertThat(userRepository.exists(one.getId()), is(true));
 
-        UserEntity two = new UserEntity("two@hazelwood.id.au", "User", "Two");
-        UserEntity three = new UserEntity("three@hazelwood.id.au", "User", "Three");
+        UserEntity two = createUserEntity("two@hazelwood.id.au", "User", "Two");
+        UserEntity three = createUserEntity("three@hazelwood.id.au", "User", "Three");
         userRepository.save(Arrays.asList(two, three));
         assertThat(userRepository.count(), is(initialCount + 3L));
 
@@ -104,11 +107,20 @@ public class UserRepositoryIntegrationTest
     {
         try
         {
-            userRepository.save(new UserEntity("a@_b.com", "A-", "-B"));
+            userRepository.save(createUserEntity("a@_b.com", "A-", "-B"));
         }
         catch (ConstraintViolationException e)
         {
             assertThat(e.getConstraintViolations().size(), is(3));
         }
+    }
+
+    private UserEntity createUserEntity(String email, String first, String last)
+    {
+        UserEntity entity = new UserEntity();
+        entity.setEmail(email);
+        entity.setFirstName(first);
+        entity.setLastName(last);
+        return entity;
     }
 }

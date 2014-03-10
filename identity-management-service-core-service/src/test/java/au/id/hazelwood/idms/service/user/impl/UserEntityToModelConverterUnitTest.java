@@ -67,8 +67,11 @@ public class UserEntityToModelConverterUnitTest
 
     private UserEntity createUserEntity(long id, String email, String first, String last)
     {
-        UserEntity entity = new UserEntity(email, first, last);
+        UserEntity entity = new UserEntity();
         entity.setId(id);
+        entity.setEmail(email);
+        entity.setFirstName(first);
+        entity.setLastName(last);
         return entity;
     }
 }

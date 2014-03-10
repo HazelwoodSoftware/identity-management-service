@@ -48,7 +48,10 @@ public class UserEntityValidationTest
     @Test
     public void shouldValidateUserEntity() throws Exception
     {
-        UserEntity entity = new UserEntity("ricky@hazelwood.id.au", "Ricky", "Hazelwood");
+        UserEntity entity = new UserEntity();
+        entity.setEmail("ricky@hazelwood.id.au");
+        entity.setFirstName("Ricky");
+        entity.setLastName("Hazelwood");
         assertThat(validator.validate(entity).isEmpty(), is(true));
     }
 

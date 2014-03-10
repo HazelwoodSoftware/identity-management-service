@@ -49,17 +49,6 @@ public class UserEntity extends BaseEntity
     @Column(name = "last_name", length = 20)
     private String lastName;
 
-    protected UserEntity()
-    {
-    }
-
-    public UserEntity(String email, String firstName, String lastName)
-    {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public String getEmail()
     {
         return email;
