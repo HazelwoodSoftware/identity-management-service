@@ -15,6 +15,7 @@
     <allow class="org.slf4j.LoggerFactory"/>
 
     <!-- Spring -->
+    <allow class="org.springframework.util.Assert"/>
     <allow class="org.springframework.beans.factory.annotation.Autowired"/>
     <allow class="org.springframework.transaction.annotation.Transactional"/>
 

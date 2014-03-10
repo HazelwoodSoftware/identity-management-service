@@ -16,6 +16,9 @@
  */
 package au.id.hazelwood.idms.service.user;
 
+import au.id.hazelwood.idms.model.user.UserModel;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,5 +71,45 @@ public class UserServiceIntegrationTest
         assertThat(userService.findUserByEmail(""), nullValue());
         assertThat(userService.findUserByEmail(null), nullValue());
         assertThat(userService.findUserByEmail("admin@hazelwood.id.au"), hasProperty("id", equalTo(1001L)));
+    }
+
+    @Test
+    public void shouldSaveNewUser() throws Exception
+    {
+        String email = randomString(10) + "@hazelwood.id.au";
+        assertThat(userService.findUserByEmail(email), nullValue());
+
+        UserModel model = userService.saveUser(createUserModel(null, email, randomString(5), randomString(5)));
+
+        assertThat(model, is(userService.findUserById(model.getId())));
+        assertThat(model, is(userService.findUserByEmail(email)));
+        assertThat(model, hasProperty("email", equalTo(email)));
+    }
+
+    @Test
+    public void shouldUpdateUser() throws Exception
+    {
+        String email = randomString(10) + "@hazelwood.id.au";
+
+        UserModel model = userService.saveUser(createUserModel(1001L, email, randomString(5), randomString(5)));
+
+        assertThat(model, is(userService.findUserById(model.getId())));
+        assertThat(model, is(userService.findUserByEmail(email)));
+        assertThat(model, hasProperty("email", equalTo(email)));
+    }
+
+    private UserModel createUserModel(Long id, String email, String first, String last)
+    {
+        UserModel model = new UserModel();
+        model.setId(id);
+        model.setEmail(email);
+        model.setFirstName(first);
+        model.setLastName(last);
+        return model;
+    }
+
+    private String randomString(int length)
+    {
+        return RandomStringUtils.randomAlphabetic(length);
     }
 }

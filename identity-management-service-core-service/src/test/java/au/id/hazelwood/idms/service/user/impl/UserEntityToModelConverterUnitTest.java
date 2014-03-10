@@ -57,7 +57,7 @@ public class UserEntityToModelConverterUnitTest
         assertUserModel(models.get(1), 1002L, "test-2@mail.com", "second", "last");
     }
 
-    private void assertUserModel(UserModel model, long id, String email, String first, String last)
+    private void assertUserModel(UserModel model, Long id, String email, String first, String last)
     {
         assertThat(model.getId(), is(id));
         assertThat(model.getEmail(), is(email));
@@ -65,7 +65,7 @@ public class UserEntityToModelConverterUnitTest
         assertThat(model.getLastName(), is(last));
     }
 
-    private UserEntity createUserEntity(long id, String email, String first, String last)
+    private UserEntity createUserEntity(Long id, String email, String first, String last)
     {
         UserEntity entity = new UserEntity();
         entity.setId(id);

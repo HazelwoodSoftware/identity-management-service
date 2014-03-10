@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -40,12 +41,15 @@ public class UserServiceImpl implements UserService
 {
     private final UserRepository userRepository;
     private final UserEntityToModelConverter userEntityToModelConverter;
+    private final UserModelToEntityConverter userModelToEntityConverter;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserEntityToModelConverter userEntityToModelConverter)
+    public UserServiceImpl(UserRepository userRepository, UserEntityToModelConverter userEntityToModelConverter,
+                           UserModelToEntityConverter userModelToEntityConverter1)
     {
         this.userRepository = userRepository;
         this.userEntityToModelConverter = userEntityToModelConverter;
+        userModelToEntityConverter = userModelToEntityConverter1;
     }
 
     @Override
@@ -66,8 +70,20 @@ public class UserServiceImpl implements UserService
         return transform(userRepository.findOneByEmail(email));
     }
 
+    @Override
+    public UserModel saveUser(UserModel model)
+    {
+        Assert.notNull(model, "The given model must not be null!");
+        return transform(userRepository.save(transform(model)));
+    }
+
+    private UserEntity transform(UserModel model)
+    {
+        return userModelToEntityConverter.apply(model);
+    }
+
     private UserModel transform(UserEntity entity)
     {
-        return entity == null ? null : userEntityToModelConverter.apply(entity);
+        return userEntityToModelConverter.apply(entity);
     }
 }

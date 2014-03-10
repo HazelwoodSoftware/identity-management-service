@@ -21,6 +21,7 @@ import au.id.hazelwood.idms.model.user.UserModel;
 import au.id.hazelwood.idms.repository.user.UserRepository;
 import au.id.hazelwood.idms.service.user.UserService;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -36,11 +37,9 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @FixMethodOrder(MethodSorters.JVM)
@@ -51,12 +50,20 @@ public class UserServiceImplUnitTest
     private UserRepository userRepository;
     @Mock
     private UserEntityToModelConverter userEntityToModelConverter;
+    @Mock
+    private UserModelToEntityConverter userModelToEntityConverter;
     private UserService userService;
 
     @Before
     public void setUp() throws Exception
     {
-        userService = new UserServiceImpl(userRepository, userEntityToModelConverter);
+        userService = new UserServiceImpl(userRepository, userEntityToModelConverter, userModelToEntityConverter);
+    }
+
+    @After
+    public void verifyNoMoreInteractionsOnAllMocks()
+    {
+        verifyNoMoreInteractions(userRepository, userEntityToModelConverter, userModelToEntityConverter);
     }
 
     @Test
@@ -68,8 +75,6 @@ public class UserServiceImplUnitTest
 
         assertThat(models.isEmpty(), is(true));
         verify(userRepository).findAll();
-        verifyNoMoreInteractions(userRepository);
-        verifyZeroInteractions(userEntityToModelConverter);
     }
 
     @Test
@@ -91,21 +96,6 @@ public class UserServiceImplUnitTest
         verify(userRepository).findAll();
         verify(userEntityToModelConverter).apply(entityOne);
         verify(userEntityToModelConverter).apply(entityTwo);
-        verifyNoMoreInteractions(userRepository, userEntityToModelConverter);
-    }
-
-    @Test
-    public void shouldFindUserByIdDelegatesToUserRepository()
-    {
-        Long id = 1L;
-        when(userRepository.findOne(id)).thenReturn(null);
-
-        UserModel model = userService.findUserById(id);
-
-        assertThat(model, nullValue());
-        verify(userRepository).findOne(id);
-        verifyNoMoreInteractions(userRepository);
-        verifyZeroInteractions(userEntityToModelConverter);
     }
 
     @Test
@@ -122,20 +112,6 @@ public class UserServiceImplUnitTest
 
         verify(userRepository).findOne(id);
         verify(userEntityToModelConverter).apply(entity);
-        verifyNoMoreInteractions(userRepository, userEntityToModelConverter);
-    }
-
-    @Test
-    public void shouldFindUserByEmailDelegatesToUserRepository()
-    {
-        String email = "test@mail.com";
-        when(userRepository.findOneByEmail(email)).thenReturn(null);
-
-        assertThat(userService.findUserByEmail(email), nullValue());
-
-        verify(userRepository).findOneByEmail(email);
-        verifyNoMoreInteractions(userRepository);
-        verifyZeroInteractions(userEntityToModelConverter);
     }
 
     @Test
@@ -152,6 +128,29 @@ public class UserServiceImplUnitTest
 
         verify(userRepository).findOneByEmail(email);
         verify(userEntityToModelConverter).apply(entity);
-        verifyNoMoreInteractions(userRepository, userEntityToModelConverter);
+    }
+
+    @Test
+    public void shouldSaveUser()
+    {
+        UserModel orig = mock(UserModel.class);
+        UserModel result = mock(UserModel.class);
+        UserEntity entity = mock(UserEntity.class);
+
+        when(userModelToEntityConverter.apply(orig)).thenReturn(entity);
+        when(userRepository.save(entity)).thenReturn(entity);
+        when(userEntityToModelConverter.apply(entity)).thenReturn(result);
+
+        assertThat(userService.saveUser(orig), is(result));
+
+        verify(userModelToEntityConverter).apply(orig);
+        verify(userRepository).save(entity);
+        verify(userEntityToModelConverter).apply(entity);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionOnSaveNullUser()
+    {
+        userService.saveUser(null);
     }
 }

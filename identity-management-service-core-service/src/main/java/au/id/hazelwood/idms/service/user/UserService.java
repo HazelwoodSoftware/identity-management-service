@@ -50,4 +50,16 @@ public interface UserService
      * @return {@link UserModel} with the given email address or {@literal null} if none found.
      */
     UserModel findUserByEmail(String email);
+
+    /**
+     * Create or update {@link UserModel}.
+     * <p/>
+     * Use the returned instance for further operations as the save operation might have changed the entity instance completely.
+     *
+     * @param model {@link UserModel} to save.
+     * @return saved {@link UserModel}
+     * @throws IllegalArgumentException if {@code UserModel} is {@literal null}
+     * @throws javax.persistence.EntityNotFoundException for update operation if {@code UserModel} with {@code id} does not exist.
+     */
+    UserModel saveUser(UserModel model);
 }
