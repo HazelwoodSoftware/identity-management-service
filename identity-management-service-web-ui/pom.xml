@@ -62,7 +62,7 @@
                     <specExcludes>
                         <exclude>lib/**/*.js</exclude>
                     </specExcludes>
-                    <customRunnerTemplate>build-conf/jasmine-spec-runner.htmltemplate</customRunnerTemplate>
+                    <customRunnerTemplate>build-config/jasmine-spec-runner.htmltemplate</customRunnerTemplate>
                 </configuration>
             </plugin>
             <plugin>
@@ -117,7 +117,7 @@
                     <stopKey>${project.name}</stopKey>
                     <stopPort>8085</stopPort>
                     <webApp>
-                        <defaultsDescriptor>${basedir}/jetty-conf/web-default.xml</defaultsDescriptor>
+                        <defaultsDescriptor>${basedir}/jetty-config/web-default.xml</defaultsDescriptor>
                         <resourceBase>${project.build.outputDirectory}</resourceBase>
                     </webApp>
                 </configuration>
