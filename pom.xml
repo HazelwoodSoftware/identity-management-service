@@ -355,7 +355,6 @@
                     </dependencies>
                     <configuration>
                         <effort>Max</effort>
-                        <includeTests>true</includeTests>
                         <threshold>Low</threshold>
                         <excludeFilterFile>au/id/hazelwood/idms/findbugs-exclude-filter.xml</excludeFilterFile>
                     </configuration>
