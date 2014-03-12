@@ -32,7 +32,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="0.1.0.2" author="Ricky Hazelwood" context="sample">
+    <changeSet id="0.1.0.2" author="Ricky Hazelwood" context="seed">
         <comment>Seed sample users</comment>
         <insert tableName="users">
             <column name="email" value="admin@hazelwood.id.au"/>
