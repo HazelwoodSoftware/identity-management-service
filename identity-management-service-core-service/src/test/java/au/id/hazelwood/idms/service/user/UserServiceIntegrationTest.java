@@ -33,6 +33,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.validation.ConstraintViolationException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -74,7 +75,7 @@ public class UserServiceIntegrationTest
     }
 
     @Test
-    public void shouldSaveNewUser() throws Exception
+    public void shouldAddNewUser() throws Exception
     {
         String email = randomString(10) + "@hazelwood.id.au";
         assertThat(userService.findUserByEmail(email), nullValue());
@@ -84,6 +85,12 @@ public class UserServiceIntegrationTest
         assertThat(model, is(userService.findUserById(model.getId())));
         assertThat(model, is(userService.findUserByEmail(email)));
         assertThat(model, hasProperty("email", equalTo(email)));
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void shouldNotAddInvalidUser() throws Exception
+    {
+        userService.saveUser(createUserModel(null, null, randomString(5), randomString(5)));
     }
 
     @Test
@@ -96,6 +103,12 @@ public class UserServiceIntegrationTest
         assertThat(model, is(userService.findUserById(model.getId())));
         assertThat(model, is(userService.findUserByEmail(email)));
         assertThat(model, hasProperty("email", equalTo(email)));
+    }
+
+    @Test
+    public void shouldNotUpdateInvalidUser() throws Exception
+    {
+        userService.saveUser(createUserModel(1001L, null, randomString(5), randomString(5)));
     }
 
     private UserModel createUserModel(Long id, String email, String first, String last)
