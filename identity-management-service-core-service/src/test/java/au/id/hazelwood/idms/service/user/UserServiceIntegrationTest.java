@@ -33,6 +33,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -60,10 +61,15 @@ public class UserServiceIntegrationTest
     }
 
     @Test
-    public void shouldFindUserById() throws Exception
+    public void shouldGetUserById() throws Exception
     {
-        assertThat(userService.findUserById(0L), nullValue());
-        assertThat(userService.findUserById(1001L), hasProperty("email", equalTo("admin@hazelwood.id.au")));
+        assertThat(userService.getUserById(1001L), hasProperty("email", equalTo("admin@hazelwood.id.au")));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldNotGetNonExistingUserById() throws Exception
+    {
+        userService.getUserById(0L);
     }
 
     @Test
@@ -82,7 +88,7 @@ public class UserServiceIntegrationTest
 
         UserModel model = userService.saveUser(createUserModel(null, email, randomString(5), randomString(5)));
 
-        assertThat(model, is(userService.findUserById(model.getId())));
+        assertThat(model, is(userService.getUserById(model.getId())));
         assertThat(model, is(userService.findUserByEmail(email)));
         assertThat(model, hasProperty("email", equalTo(email)));
     }
@@ -100,9 +106,15 @@ public class UserServiceIntegrationTest
 
         UserModel model = userService.saveUser(createUserModel(1001L, email, randomString(5), randomString(5)));
 
-        assertThat(model, is(userService.findUserById(model.getId())));
+        assertThat(model, is(userService.getUserById(model.getId())));
         assertThat(model, is(userService.findUserByEmail(email)));
         assertThat(model, hasProperty("email", equalTo(email)));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldFailToUpdateNonExistingUser() throws Exception
+    {
+        userService.saveUser(createUserModel(0L, randomString(10) + "@hazelwood.id.au", randomString(5), randomString(5)));
     }
 
     @Test(expected = ConstraintViolationException.class)

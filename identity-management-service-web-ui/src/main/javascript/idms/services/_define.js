@@ -14,10 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'angular_resource', 'idms/constants'], function (angular)
+define([
+    'angular',
+    'angular_resource',
+    'idms/constants/constants'
+], function (angular)
 {
     'use strict';
 
     /* Services */
-    angular.module('idms.services', ['ngResource', 'idms.constants']);
+    return angular.module('idms.services', ['ngResource', 'idms.constants']);
 });

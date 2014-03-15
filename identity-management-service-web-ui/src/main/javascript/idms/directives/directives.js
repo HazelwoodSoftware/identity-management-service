@@ -14,4 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/services/_define', 'idms/services/version', 'idms/services/user'], function () {});
+define([
+    'idms/directives/_define',
+    'idms/directives/common/version',
+    'idms/directives/common/load'
+], function (module) { return module; });

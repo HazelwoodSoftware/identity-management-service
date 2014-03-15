@@ -14,4 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/filters/_define', 'idms/filters/interpolate'], function () {});
+package au.id.hazelwood.idms.web.handler;
+
+import java.io.Serializable;
+
+public final class ErrorDetail implements Serializable
+{
+    private final String field;
+    private final String message;
+
+    public ErrorDetail(String field, String message)
+    {
+        this.field = field;
+        this.message = message;
+    }
+
+    public String getField()
+    {
+        return field;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+}

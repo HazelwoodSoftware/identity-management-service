@@ -14,17 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.web.exception;
+package au.id.hazelwood.idms.web.handler;
 
-/**
- * Exception thrown when not result was found.
- *
- * @author Ricky Hazelwood
- */
-public class NotFoundException extends Exception
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+
+public final class ErrorResponseBody implements Serializable
 {
-    public NotFoundException(String message)
+    private final String message;
+    private final List<ErrorDetail> errors;
+
+    public ErrorResponseBody(String message)
     {
-        super(message);
+        this(message, Collections.<ErrorDetail>emptyList());
+    }
+
+    public ErrorResponseBody(String message, List<ErrorDetail> errors)
+    {
+        this.message = message;
+        this.errors = Collections.unmodifiableList(errors);
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public List<ErrorDetail> getErrors()
+    {
+        return errors;
     }
 }

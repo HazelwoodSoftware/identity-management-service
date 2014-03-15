@@ -14,18 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/controllers/_define'], function (angular)
-{
-    'use strict';
-
-    /* Controllers */
-    return angular.module('idms.controllers').controller('HomeController', ['$scope', function ($scope)
-    {
-        $scope.updateImg = function ()
-        {
-            $scope.url = "http://thecatapi.com/api/images/get?format=src&type=png&cachebuster=" + Math.ceil(Math.random() * 1000);
-        };
-
-        $scope.updateImg();
-    }]);
-});
+define([
+    'idms/services/_define',
+    'idms/services/common/version',
+    'idms/services/users/user'
+], function (module) { return module; });

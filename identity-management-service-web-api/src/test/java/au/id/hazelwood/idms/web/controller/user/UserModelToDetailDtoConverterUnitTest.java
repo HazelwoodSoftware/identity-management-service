@@ -21,7 +21,9 @@ import au.id.hazelwood.idms.web.dto.user.UserDetailDto;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
+@FixMethodOrder(MethodSorters.JVM)
 public class UserModelToDetailDtoConverterUnitTest
 {
     private final UserModelToDetailDtoConverter converter = new UserModelToDetailDtoConverter();

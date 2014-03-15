@@ -16,6 +16,7 @@
  */
 package au.id.hazelwood.idms.web.controller.framework;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -25,6 +26,8 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,7 +37,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -43,6 +45,7 @@ import java.util.List;
 import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @FixMethodOrder(MethodSorters.JVM)
@@ -69,10 +72,9 @@ public abstract class BaseIntegrationTest
         verifyNoMoreInteractions(getAllMocks());
     }
 
-    private Object[] getAllMocks()
+    protected String toJSON(Object obj) throws Exception
     {
-        List<?> mocks = Lists.newArrayList(Iterables.filter(beans, new MockObjectPredicate()));
-        return mocks.toArray(new Object[mocks.size()]);
+        return new ObjectMapper().writeValueAsString(obj);
     }
 
     protected ResultActions perform(RequestBuilder request) throws Exception
@@ -82,8 +84,8 @@ public abstract class BaseIntegrationTest
 
     protected ResultActions perform(RequestBuilder request, boolean hasResponseBody) throws Exception
     {
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        ResultActions result = mockMvc.perform(MockHttpServletRequestBuilder.class.cast(request).accept(MediaType.APPLICATION_JSON));
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).defaultRequest(get("/").accept(MediaType.APPLICATION_JSON)).build();
+        ResultActions result = mockMvc.perform(request);
         if (hasResponseBody)
         {
             result.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -93,6 +95,21 @@ public abstract class BaseIntegrationTest
             result.andExpect(content().string(StringUtils.EMPTY));
         }
         return result;
+    }
+
+    private Object[] getAllMocks()
+    {
+        List<?> mocks = Lists.newArrayList(Iterables.filter(beans, new MockObjectPredicate()));
+        return mocks.toArray(new Object[mocks.size()]);
+    }
+
+    public static class AnswerWithFirstArgument implements Answer<Object>
+    {
+        @Override
+        public Object answer(InvocationOnMock invocation) throws Throwable
+        {
+            return invocation.getArguments()[0];
+        }
     }
 
     private static class MockObjectPredicate implements Predicate<Object>

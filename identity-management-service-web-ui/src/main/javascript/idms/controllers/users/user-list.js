@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular'], function (angular)
+define(['idms/controllers/_define'], function (module)
 {
     'use strict';
-    return angular.module('idms.constants', [])
-        .constant('CONFIG', {
-            apiUrl: 'http://localhost:8082/api',
-            version: '0.1'
-        });
+
+    /* Controllers */
+    module.controller('UserListController', ['$scope', 'UserService', function ($scope, UserService)
+    {
+        $scope.users = UserService.query();
+        $scope.sort = 'name';
+    }]);
 });

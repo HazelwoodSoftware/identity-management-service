@@ -14,4 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/directives/_define', 'idms/directives/app-version'], function () {});
+define(['angular', 'angular_mocks', 'idms/directives/common/version'], function (angular, mocks)
+{
+    'use strict';
+
+    describe('idms.directives.app-version', function ()
+    {
+        beforeEach(mocks.module('idms.directives'));
+
+        it('should print current version', function ()
+        {
+            mocks.module(function ($provide)
+            {
+                $provide.value('version', 'TEST_VER');
+            });
+            mocks.inject(function ($compile, $rootScope)
+            {
+                var element = $compile('<span data-idms-version></span>')($rootScope);
+                expect(element.text()).toEqual('TEST_VER');
+            });
+        });
+    });
+});

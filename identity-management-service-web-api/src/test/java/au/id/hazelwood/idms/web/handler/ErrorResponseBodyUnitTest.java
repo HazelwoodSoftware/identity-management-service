@@ -14,24 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.web.exception;
+package au.id.hazelwood.idms.web.handler;
 
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
+
+import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
-@FixMethodOrder(MethodSorters.JVM)
-public class NotFoundExceptionUnitTest
+public class ErrorResponseBodyUnitTest
 {
     @Test
-    public void shouldHaveValidConstructor()
+    public void shouldDefaultErrors() throws Exception
     {
-        Exception exception = new NotFoundException("Error Message");
-        assertThat(exception.getMessage(), is("Error Message"));
-        assertThat(exception.getCause(), nullValue());
+        ErrorResponseBody body = new ErrorResponseBody("message");
+        assertThat(body.getMessage(), is("message"));
+        assertThat(body.getErrors(), empty());
+    }
+
+    @Test
+    public void shouldHaveValidGetters() throws Exception
+    {
+        ErrorDetail detail = new ErrorDetail("property-1", "message-1");
+        ErrorResponseBody body = new ErrorResponseBody("message-value", Arrays.asList(detail));
+        assertThat(body.getMessage(), is("message-value"));
+        assertThat(body.getErrors(), contains(detail));
     }
 }

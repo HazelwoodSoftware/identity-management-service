@@ -40,6 +40,7 @@
     <subpackage name="web">
         <subpackage name="dto">
             <allow pkg="com.wordnik.swagger.annotations"/>
+            <allow pkg=" au.id.hazelwood.idms.validation"/>
 
             <subpackage name="framework">
             </subpackage>
@@ -52,17 +53,16 @@
         <subpackage name="controller">
             <allow pkg="com.wordnik.swagger.annotations"/>
             <allow pkg="org.springframework.web.bind.annotation"/>
+            <allow class="org.springframework.util.Assert"/>
+            <allow class="org.springframework.http.MediaType"/>
+            <allow class="org.springframework.http.HttpStatus"/>
             <allow class="org.springframework.stereotype.Controller"/>
             <allow class="org.springframework.stereotype.Component"/>
-            <allow class="org.springframework.http.MediaType"/>
 
             <subpackage name="framework">
-                <allow pkg="org.springframework.http"/>
-                <allow pkg="au.id.hazelwood.idms.web.exception"/>
-                <allow class="org.springframework.web.context.request.WebRequest"/>
-                <allow class="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler"/>
 
                 <!-- Test Only -->
+                <allow class="com.fasterxml.jackson.databind.ObjectMapper"/>
                 <allow class="org.springframework.web.context.WebApplicationContext"/>
             </subpackage>
 
@@ -76,13 +76,21 @@
                 <allow pkg="au.id.hazelwood.idms.model.user"/>
                 <allow pkg="au.id.hazelwood.idms.service.user"/>
                 <allow pkg="au.id.hazelwood.idms.web.dto.user"/>
-                <allow pkg="au.id.hazelwood.idms.web.exception"/>
                 <allow pkg="au.id.hazelwood.idms.web.controller.framework"/>
             </subpackage>
         </subpackage>
 
         <subpackage name="filter">
             <allow class="org.springframework.web.filter.OncePerRequestFilter"/>
+        </subpackage>
+
+        <subpackage name="handler">
+            <allow pkg="org.springframework.http"/>
+            <allow pkg="org.springframework.context"/>
+            <allow pkg="org.springframework.validation"/>
+            <allow pkg="org.springframework.web.bind"/>
+            <allow class="org.springframework.web.context.request.WebRequest"/>
+            <allow class="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler"/>
         </subpackage>
     </subpackage>
 

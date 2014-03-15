@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/services/_define'], function (angular)
-{
-    'use strict';
-
-    /* Services */
-    angular.module('idms.services').value('version', '0.1');
-});
+define([
+    'idms/controllers/_define',
+    'idms/controllers/home/home',
+    'idms/controllers/users/user-list',
+    'idms/controllers/users/user-edit'
+], function (module) { return module; });

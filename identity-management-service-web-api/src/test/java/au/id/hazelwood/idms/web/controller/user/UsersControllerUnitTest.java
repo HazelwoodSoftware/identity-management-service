@@ -21,7 +21,6 @@ import au.id.hazelwood.idms.service.user.UserService;
 import au.id.hazelwood.idms.web.dto.user.UserCreateDto;
 import au.id.hazelwood.idms.web.dto.user.UserDetailDto;
 import au.id.hazelwood.idms.web.dto.user.UserSummaryDto;
-import au.id.hazelwood.idms.web.exception.NotFoundException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -54,22 +53,24 @@ public class UsersControllerUnitTest
     private UserModelToSummaryDtoConverter userModelToSummaryDtoConverter;
     @Mock
     private UserModelToDetailDtoConverter userModelToDetailDtoConverter;
+    @Mock
+    private UserDetailDtoToModelConverter userDetailDtoToModelConverter;
     private UsersController controller;
 
     @Before
     public void before() throws Exception
     {
-        controller = new UsersController(userService, userModelToSummaryDtoConverter, userModelToDetailDtoConverter);
+        controller = new UsersController(userService, userModelToSummaryDtoConverter, userModelToDetailDtoConverter, userDetailDtoToModelConverter);
     }
 
     @After
     public void after() throws Exception
     {
-        verifyNoMoreInteractions(userService, userModelToSummaryDtoConverter, userModelToDetailDtoConverter);
+        verifyNoMoreInteractions(userService, userModelToSummaryDtoConverter, userModelToDetailDtoConverter, userDetailDtoToModelConverter);
     }
 
     @Test
-    public void shouldFindAllUsersDelegatesToUserServiceAndSummaryDtoConverter() throws Exception
+    public void shouldFindAllUsersByUsingUserServiceAndSummaryDtoConverter() throws Exception
     {
         UserModel model = mock(UserModel.class);
         UserSummaryDto dto = mock(UserSummaryDto.class);
@@ -96,46 +97,55 @@ public class UsersControllerUnitTest
     }
 
     @Test
-    public void shouldFindUserDelegatesToUserService() throws Exception
+    public void shouldFindUserByUsingUserService() throws Exception
     {
         Long userId = 10L;
         UserModel model = mock(UserModel.class);
         UserDetailDto dto = mock(UserDetailDto.class);
 
-        when(userService.findUserById(userId)).thenReturn(model);
+        when(userService.getUserById(userId)).thenReturn(model);
         when(userModelToDetailDtoConverter.apply(model)).thenReturn(dto);
 
         UserDetailDto actual = controller.findUser(userId);
 
         assertThat(actual, is(dto));
-        verify(userService).findUserById(userId);
+        verify(userService).getUserById(userId);
         verify(userModelToDetailDtoConverter).apply(model);
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void shouldFindUserThrowsNotFoundExceptionWhenUserMissing() throws Exception
-    {
-        Long userId = 10L;
-
-        when(userService.findUserById(userId)).thenReturn(null);
-
-        try
-        {
-            controller.findUser(userId);
-        }
-        finally
-        {
-            verify(userService).findUserById(userId);
-        }
     }
 
     @Test
     public void shouldUpdateUser() throws Exception
     {
         UserDetailDto dto = mock(UserDetailDto.class);
+        UserModel model = mock(UserModel.class);
+
+        when(dto.getId()).thenReturn(10L);
+        when(userDetailDtoToModelConverter.apply(dto)).thenReturn(model);
+        when(userService.saveUser(model)).thenReturn(model);
 
         controller.updateUser(10L, dto);
 
-        verifyNoMoreInteractions(dto);
+        verify(dto).getId();
+        verify(userDetailDtoToModelConverter).apply(dto);
+        verify(userService).saveUser(model);
+        verifyNoMoreInteractions(dto, model);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateUserIdDoesNotMatchBody() throws Exception
+    {
+        UserDetailDto dto = mock(UserDetailDto.class);
+
+        when(dto.getId()).thenReturn(1L);
+
+        try
+        {
+            controller.updateUser(10L, dto);
+        }
+        finally
+        {
+            verify(dto).getId();
+            verifyNoMoreInteractions(dto);
+        }
     }
 }

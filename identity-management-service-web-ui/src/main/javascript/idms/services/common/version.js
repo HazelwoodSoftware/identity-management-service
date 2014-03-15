@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define([
-    'idms/_define',
-    'idms/_routes'
-], function (module) { return module; });
+define(['idms/services/_define'], function (module)
+{
+    'use strict';
+
+    /* Services */
+    module.value('version', '0.1');
+});

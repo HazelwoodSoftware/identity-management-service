@@ -14,4 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/controllers/_define', 'idms/controllers/home', 'idms/controllers/user-list', 'idms/controllers/user-edit'], function () {});
+define(['idms/directives/_define'], function (module)
+{
+    'use strict';
+
+    /* Directives */
+    module.directive('idmsLoad', ['$parse', function ($parse)
+    {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr)
+            {
+                var fn = $parse(attr.idmsLoad);
+                element.on('load', function ()
+                {
+                    scope.$apply(function ()
+                    {
+                        fn(scope, {$event: event});
+                    });
+                });
+            }
+        };
+    }]);
+});

@@ -16,23 +16,36 @@
  */
 package au.id.hazelwood.idms.web.dto.user;
 
+import au.id.hazelwood.idms.validation.Email;
+import au.id.hazelwood.idms.validation.Name;
 import au.id.hazelwood.idms.web.dto.framework.BaseDto;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Create dto for {@link au.id.hazelwood.idms.model.user.UserModel}.
  *
  * @author Ricky Hazelwood
  */
+@SuppressWarnings("UnusedDeclaration")
 @ApiModel(value = "A new user", description = "Create dto for an user")
 public class UserCreateDto extends BaseDto
 {
+    @Email
+    @NotNull
+    @Size(min = 1, max = 254)
     @ApiModelProperty(value = "Email address of the user", notes = "The email address of this user", required = true, position = 1)
     private String email;
+    @Name
+    @Size(max = 20)
     @ApiModelProperty(value = "Fist name of the user", notes = "The first name of this user", required = false, position = 2)
     private String firstName;
+    @Name
+    @Size(max = 20)
     @ApiModelProperty(value = "Last name of the user", notes = "The last name of this user", required = false, position = 3)
     private String lastName;
 

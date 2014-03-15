@@ -14,16 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/filters/_define'], function (angular)
-{
-    'use strict';
+package au.id.hazelwood.idms.web.handler;
 
-    /* Filters */
-    angular.module('idms.filters').filter('interpolate', ['version', function (version)
+import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+public class ErrorDetailUnitTest
+{
+    @Test
+    public void shouldHaveValidGetters() throws Exception
     {
-        return function (text)
-        {
-            return String(text).replace(/\%VERSION\%/mg, version);
-        };
-    }]);
-});
+        ErrorDetail detail = new ErrorDetail("property-value", "message-value");
+        assertThat(detail.getField(), is("property-value"));
+        assertThat(detail.getMessage(), is("message-value"));
+    }
+}

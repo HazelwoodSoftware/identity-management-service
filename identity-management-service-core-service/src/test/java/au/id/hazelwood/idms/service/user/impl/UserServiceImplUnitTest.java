@@ -67,7 +67,7 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void shouldFindAllDelegatesToUserRepository()
+    public void shouldFindAllByUsingUserRepository()
     {
         when(userRepository.findAll()).thenReturn(Collections.<UserEntity>emptyList());
 
@@ -99,18 +99,18 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void shouldFindUserById()
+    public void shouldGetUserById()
     {
         Long id = 1L;
         UserEntity entity = mock(UserEntity.class);
         UserModel model = mock(UserModel.class);
 
-        when(userRepository.findOne(id)).thenReturn(entity);
+        when(userRepository.getOne(id)).thenReturn(entity);
         when(userEntityToModelConverter.apply(entity)).thenReturn(model);
 
-        assertThat(userService.findUserById(id), is(model));
+        assertThat(userService.getUserById(id), is(model));
 
-        verify(userRepository).findOne(id);
+        verify(userRepository).getOne(id);
         verify(userEntityToModelConverter).apply(entity);
     }
 

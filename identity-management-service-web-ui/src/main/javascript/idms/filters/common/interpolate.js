@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/controllers/_define'], function (angular)
+define(['idms/filters/_define'], function (module)
 {
     'use strict';
 
-    /* Controllers */
-    return angular.module('idms.controllers').controller('UserListController', ['$scope', 'UserService', function ($scope, UserService)
+    /* Filters */
+    module.filter('interpolate', ['version', function (version)
     {
-        $scope.users = UserService.query();
-        $scope.sort = 'name';
+        return function (text)
+        {
+            return String(text).replace(/\%VERSION\%/mg, version);
+        };
     }]);
 });

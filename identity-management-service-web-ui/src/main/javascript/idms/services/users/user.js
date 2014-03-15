@@ -14,24 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/controllers/_define'], function (angular)
+define(['idms/services/_define'], function (module)
 {
     'use strict';
 
-    /* Controllers */
-    return angular.module('idms.controllers').controller('UserEditController',
-        ['$scope', '$routeParams', '$location', 'UserService', function ($scope, $routeParams, $location, UserService)
-        {
-            $scope.user = UserService.get({userId: $routeParams.userId});
-
-            $scope.save = function ()
-            {
-                $location.path("/users");
-            };
-
-            $scope.cancel = function ()
-            {
-                $location.path("/users");
-            };
-        }]);
+    /* Services */
+    module.factory('UserService', ['$resource', 'CONFIG', function ($resource, CONFIG)
+    {
+        return $resource(CONFIG.apiUrl + '/users/:userId', null, {
+            update: {method: 'PUT'}
+        });
+    }]);
 });

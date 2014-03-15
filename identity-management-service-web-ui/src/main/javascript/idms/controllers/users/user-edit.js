@@ -14,20 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'angular_mocks', 'idms/services/version'], function (angular, mocks)
+define(['idms/controllers/_define'], function (module)
 {
     'use strict';
 
-    describe('idms.services.version', function ()
-    {
-        beforeEach(mocks.module('idms.services'));
-
-        it('should return current version', function ()
+    /* Controllers */
+    module.controller('UserEditController',
+        ['$scope', '$routeParams', '$location', 'UserService', function ($scope, $routeParams, $location, UserService)
         {
-            mocks.inject(function (version)
+            $scope.user = UserService.get({userId: $routeParams.userId});
+
+            $scope.save = function ()
             {
-                expect(version).toEqual('0.1');
-            });
-        });
-    });
+                $scope.user.$update({userId: $routeParams.userId}, function ()
+                {
+                    $location.path("/users");
+                });
+            };
+
+            $scope.cancel = function ()
+            {
+                $location.path("/users");
+            };
+        }]);
 });

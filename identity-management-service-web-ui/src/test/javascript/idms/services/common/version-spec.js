@@ -14,7 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define([
-    'idms/_define',
-    'idms/_routes'
-], function (module) { return module; });
+define(['angular', 'angular_mocks', 'idms/services/common/version'], function (angular, mocks)
+{
+    'use strict';
+
+    describe('idms.services.version', function ()
+    {
+        beforeEach(mocks.module('idms.services'));
+
+        it('should return current version', function ()
+        {
+            mocks.inject(function (version)
+            {
+                expect(version).toEqual('0.1');
+            });
+        });
+    });
+});

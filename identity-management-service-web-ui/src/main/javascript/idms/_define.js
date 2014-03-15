@@ -14,25 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'angular_mocks', 'idms/directives/app-version'], function (angular, mocks)
+define([
+    'angular',
+    'angular_route',
+    'idms/constants/constants',
+    'idms/services/services',
+    'idms/directives/directives',
+    'idms/filters/filters',
+    'idms/controllers/controllers'
+], function (angular)
 {
     'use strict';
 
-    describe('idms.directives.app-version', function ()
-    {
-        beforeEach(mocks.module('idms.directives'));
-
-        it('should print current version', function ()
-        {
-            mocks.module(function ($provide)
-            {
-                $provide.value('version', 'TEST_VER');
-            });
-            mocks.inject(function ($compile, $rootScope)
-            {
-                var element = $compile('<span data-app-version></span>')($rootScope);
-                expect(element.text()).toEqual('TEST_VER');
-            });
-        });
-    });
+    // Declare app level module which depends on filters, and services
+    return angular.module('idms', ['ngRoute', 'idms.constants', 'idms.services', 'idms.directives', 'idms.filters', 'idms.controllers']);
 });

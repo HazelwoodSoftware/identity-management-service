@@ -15,6 +15,13 @@
  * limitations under the License.
  */
 define([
-    'idms/_define',
-    'idms/_routes'
-], function (module) { return module; });
+    'angular'
+], function (angular)
+{
+    'use strict';
+    return angular.module('idms.constants', [])
+        .constant('CONFIG', {
+            apiUrl: 'http://localhost:8082/api',
+            version: '0.1'
+        });
+});

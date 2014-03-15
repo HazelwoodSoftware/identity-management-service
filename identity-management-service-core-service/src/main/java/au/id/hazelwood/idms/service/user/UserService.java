@@ -45,10 +45,11 @@ public interface UserService
      * Retrieves {@link UserModel} by id.
      *
      * @param id {@link UserModel}'s id
-     * @return {@link UserModel} with the given id or {@literal null} if none found.
+     * @return {@link UserModel} with the given id.
      * @throws IllegalArgumentException if {@code id} is {@literal null}
+     * @throws EntityNotFoundException {@code UserModel} with {@code id} does not exist.
      */
-    UserModel findUserById(Long id);
+    UserModel getUserById(Long id);
 
     /**
      * Retrieves {@link UserModel} by email address.

@@ -24,19 +24,27 @@ html
 }
 /* Cat picture style
 -------------------------------------------------- */
-.cat-pic-container .cat-pic
+.pic-container
 {
     min-width: 550px;
     max-width: 750px;
     margin: 0 auto;
 }
 
-.cat-pic-container .cat-pic img
+.pic-container .pic
 {
     width: 100%;
     height: 300px;
     border: 1px solid;
 }
+
+.pic-container .pic .spinner
+{
+    margin: 115px 0;
+    text-align: center;
+}
+/* Bootstrap overrides
+-------------------------------------------------- */
 .form-horizontal .control-label
 {
     text-align: left;

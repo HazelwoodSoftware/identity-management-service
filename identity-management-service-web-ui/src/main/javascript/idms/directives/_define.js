@@ -14,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'idms/services'], function (angular)
+define([
+    'angular',
+    'idms/services/services'
+], function (angular)
 {
     'use strict';
 
     /* Directives */
-    angular.module('idms.directives', ['idms.services']);
+    return angular.module('idms.directives', ['idms.services']);
 });

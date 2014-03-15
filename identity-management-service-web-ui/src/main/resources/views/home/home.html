@@ -4,13 +4,16 @@
     <p><a class="btn btn-primary btn-lg">Learn more</a></p>
 </div>
 <p class="lead text-center">Thanks for stopping by, here is a random cat picture for your viewing pleasure.</p>
-<div class="cat-pic-container">
-    <div class="cat-pic">
-        <div class="well">
-            <img src="" data-ng-src="{{url}}">
+<div class="pic-container">
+    <div class="well">
+        <div class="pic">
+            <div class="spinner" data-ng-show="imgLoading">
+                <i class="fa fa-spinner fa-5x fa-spin"></i>
+            </div>
+            <img src="" data-ng-src="{{imgUrl}}" data-ng-hide="imgLoading" data-idms-load="imgLoaded();" width="100%" height="100%">
         </div>
-        <div class="well">
-            <button type="button" class="btn btn-default btn-lg btn-block" data-ng-click="updateImg();">New random picture</button>
-        </div>
+    </div>
+    <div class="well">
+        <button type="button" class="btn btn-default btn-lg btn-block" data-ng-click="imgUpdate();">New random picture</button>
     </div>
 </div>

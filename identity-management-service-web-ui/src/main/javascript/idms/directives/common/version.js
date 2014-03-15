@@ -14,24 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['angular', 'angular_mocks', 'idms/filters/interpolate'], function (angular, mocks)
+define(['idms/directives/_define'], function (module)
 {
     'use strict';
 
-    describe('idms.filter.interpolate', function ()
+    /* Directives */
+    module.directive('idmsVersion', ['version', function (version)
     {
-        beforeEach(mocks.module('idms.filters'));
-
-        it('should replace VERSION', function ()
+        return function (scope, elm)
         {
-            mocks.module(function ($provide)
-            {
-                $provide.value('version', 'TEST_VER');
-            });
-            mocks.inject(function (interpolateFilter)
-            {
-                expect(interpolateFilter('before %VERSION% after')).toEqual('before TEST_VER after');
-            });
-        });
-    });
+            elm.text(version);
+        };
+    }]);
 });
