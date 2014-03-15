@@ -102,17 +102,10 @@ public class UserRepositoryIntegrationTest
         assertThat(userRepository.count(), is(initialCount));
     }
 
-    @Test
+    @Test(expected = ConstraintViolationException.class)
     public void shouldGetValidationError() throws Exception
     {
-        try
-        {
-            userRepository.save(createUserEntity("a@_b.com", "A-", "-B"));
-        }
-        catch (ConstraintViolationException e)
-        {
-            assertThat(e.getConstraintViolations().size(), is(3));
-        }
+        userRepository.save(createUserEntity("", "", ""));
     }
 
     private UserEntity createUserEntity(String email, String first, String last)

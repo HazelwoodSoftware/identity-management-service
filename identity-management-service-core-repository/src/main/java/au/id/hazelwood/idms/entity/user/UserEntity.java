@@ -22,7 +22,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -37,15 +36,12 @@ public class UserEntity extends BaseEntity
 {
     @NotNull
     @Size(min = 1, max = 254)
-    @Pattern(regexp = EMAIL_REGEX, flags = Pattern.Flag.CASE_INSENSITIVE, message = "not a well-formed email address")
     @Column(name = "email", unique = true, nullable = false, length = 254)
     private String email;
     @Size(max = 20)
-    @Pattern(regexp = NAME_REGEX, flags = Pattern.Flag.CASE_INSENSITIVE, message = "not a well-formed name")
     @Column(name = "first_name", length = 20)
     private String firstName;
     @Size(max = 20)
-    @Pattern(regexp = NAME_REGEX, flags = Pattern.Flag.CASE_INSENSITIVE, message = "not a well-formed name")
     @Column(name = "last_name", length = 20)
     private String lastName;
 

@@ -35,11 +35,6 @@ import java.io.Serializable;
 @SuppressWarnings("UnusedDeclaration")
 public abstract class BaseEntity implements Serializable
 {
-    protected static final String USERNAME_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*";
-    protected static final String DOMAIN_REGEX = "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+(?:\\.(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+)*\\.[a-z]{2,9}";
-    protected static final String IP_REGEX = "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}";
-    protected static final String NAME_REGEX = "^(?:[a-z]('?[a-z]+)?((-| )(?:[a-z]('?[a-z]+)?))*)?$";
-    protected static final String EMAIL_REGEX = "^" + USERNAME_REGEX + "@(" + DOMAIN_REGEX + "|" + IP_REGEX + ")$";
     @Id
     @GeneratedValue
     private Long id;

@@ -18,6 +18,7 @@ package au.id.hazelwood.idms.entity.user;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -58,58 +59,30 @@ public class UserEntityValidationTest
     @Test
     public void shouldValidateEmail() throws Exception
     {
-        assertValidation("email", "abcdefghijklmnopqrtsuvwxyz@b.com");
-        assertValidation("email", "1234567890@b.com");
-        assertValidation("email", "a.z@b.com");
-        assertValidation("email", "!#$%&'*+/=?^_`{|}~-.!#$%&'*+/=?^_`{|}~-@b.com");
-        assertValidation("email", "a@b-c.com");
-        assertValidation("email", "a@test-host.com");
-        assertValidation("email", "a@test.host.com");
-        assertValidation("email", "a@192.168.0.1");
+        assertValidation("email", "ricky@hazelwood.id.au");
         assertValidation("email", null, "may not be null");
-        assertValidation("email", "", "size must be between 1 and 254", "not a well-formed email address");
-        assertValidation("email", StringUtils.repeat("a", 255), "size must be between 1 and 254", "not a well-formed email address");
-        assertValidation("email", "a", "not a well-formed email address");
-        assertValidation("email", "a@b", "not a well-formed email address");
-        assertValidation("email", "a@b.c", "not a well-formed email address");
-        assertValidation("email", ".@b.com", "not a well-formed email address");
-        assertValidation("email", "a.@b.com", "not a well-formed email address");
-        assertValidation("email", "a@b-.com", "not a well-formed email address");
-        assertValidation("email", "a@-b.com", "not a well-formed email address");
-        assertValidation("email", "a@b_.com", "not a well-formed email address");
-        assertValidation("email", "a@_b.com", "not a well-formed email address");
+        assertValidation("email", "", "size must be between 1 and 254");
+        assertValidation("email", StringUtils.repeat("a", 255), "size must be between 1 and 254");
     }
 
     @Test
     public void shouldValidateFirstName() throws Exception
     {
         assertValidation("firstName", "Ricky");
-        assertValidation("firstName", "Ricky Jack");
-        assertValidation("firstName", "O'Brien-O'Connor");
-        assertValidation("firstName", "Connor Tomas O'Brien");
         assertValidation("firstName", "");
         assertValidation("firstName", null);
-        assertValidation("firstName", StringUtils.repeat("a", 20));
+        assertValidation("firstName", RandomStringUtils.random(20));
         assertValidation("firstName", StringUtils.repeat("a", 21), "size must be between 0 and 20");
-        assertValidation("firstName", " ", "not a well-formed name");
-        assertValidation("firstName", "-", "not a well-formed name");
-        assertValidation("firstName", "A- -B", "not a well-formed name");
     }
 
     @Test
     public void shouldValidateLastName() throws Exception
     {
         assertValidation("lastName", "Hazelwood");
-        assertValidation("lastName", "Hazel Wood");
-        assertValidation("lastName", "O'Brien-O'Connor");
-        assertValidation("lastName", "Connor Tomas O'Brien");
         assertValidation("lastName", "");
         assertValidation("lastName", null);
-        assertValidation("lastName", StringUtils.repeat("a", 20));
+        assertValidation("lastName", RandomStringUtils.random(20));
         assertValidation("lastName", StringUtils.repeat("a", 21), "size must be between 0 and 20");
-        assertValidation("lastName", " ", "not a well-formed name");
-        assertValidation("lastName", "-", "not a well-formed name");
-        assertValidation("lastName", "A- -B", "not a well-formed name");
     }
 
     private void assertValidation(String property, String value, String... expectedViolations)
