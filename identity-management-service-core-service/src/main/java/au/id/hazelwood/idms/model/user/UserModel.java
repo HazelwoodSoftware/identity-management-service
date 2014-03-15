@@ -17,6 +17,11 @@
 package au.id.hazelwood.idms.model.user;
 
 import au.id.hazelwood.idms.model.framework.BaseModel;
+import au.id.hazelwood.idms.validation.Email;
+import au.id.hazelwood.idms.validation.Name;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * This model is a representation of an user.
@@ -26,8 +31,15 @@ import au.id.hazelwood.idms.model.framework.BaseModel;
  */
 public class UserModel extends BaseModel
 {
+    @Email
+    @NotNull
+    @Size(min = 1, max = 254)
     private String email;
+    @Name
+    @Size(max = 20)
     private String firstName;
+    @Name
+    @Size(max = 20)
     private String lastName;
 
     public String getEmail()

@@ -25,7 +25,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import java.util.List;
  * @author Ricky Hazelwood
  */
 @Service
-@Transactional
 public class UserServiceImpl implements UserService
 {
     private final UserRepository userRepository;
@@ -49,7 +47,7 @@ public class UserServiceImpl implements UserService
     {
         this.userRepository = userRepository;
         this.userEntityToModelConverter = userEntityToModelConverter;
-        userModelToEntityConverter = userModelToEntityConverter1;
+        this.userModelToEntityConverter = userModelToEntityConverter1;
     }
 
     @Override

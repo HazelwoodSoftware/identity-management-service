@@ -18,6 +18,11 @@ package au.id.hazelwood.idms.service.user;
 
 import au.id.hazelwood.idms.model.user.UserModel;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -25,6 +30,8 @@ import java.util.List;
  *
  * @author Ricky Hazelwood
  */
+@Validated
+@Transactional
 public interface UserService
 {
     /**
@@ -59,7 +66,7 @@ public interface UserService
      * @param model {@link UserModel} to save.
      * @return saved {@link UserModel}
      * @throws IllegalArgumentException if {@code UserModel} is {@literal null}
-     * @throws javax.persistence.EntityNotFoundException for update operation if {@code UserModel} with {@code id} does not exist.
+     * @throws EntityNotFoundException for update operation if {@code UserModel} with {@code id} does not exist.
      */
-    UserModel saveUser(UserModel model);
+    UserModel saveUser(@Valid UserModel model);
 }

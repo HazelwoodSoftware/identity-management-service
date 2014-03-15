@@ -26,6 +26,9 @@
     <!-- Transaction Support -->
     <tx:annotation-driven/>
 
+    <!-- Validation Support -->
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
+
     <!-- Service -->
     <context:component-scan base-package="au.id.hazelwood.idms.service" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>

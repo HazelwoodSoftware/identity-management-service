@@ -90,7 +90,7 @@ public class UserServiceIntegrationTest
     @Test(expected = ConstraintViolationException.class)
     public void shouldNotAddInvalidUser() throws Exception
     {
-        userService.saveUser(createUserModel(null, null, randomString(5), randomString(5)));
+        userService.saveUser(createUserModel(null, randomString(254), randomString(20), randomString(20)));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class UserServiceIntegrationTest
         assertThat(model, hasProperty("email", equalTo(email)));
     }
 
-    @Test
+    @Test(expected = ConstraintViolationException.class)
     public void shouldNotUpdateInvalidUser() throws Exception
     {
         userService.saveUser(createUserModel(1001L, null, randomString(5), randomString(5)));

@@ -15,7 +15,6 @@
     <allow class="org.slf4j.LoggerFactory"/>
 
     <!-- Spring -->
-    <allow class="org.springframework.util.Assert"/>
     <allow class="org.springframework.beans.factory.annotation.Autowired"/>
     <allow class="org.springframework.transaction.annotation.Transactional"/>
 
@@ -37,6 +36,7 @@
     <allow class="org.junit.runners.MethodSorters"/>
 
     <subpackage name="model">
+        <allow pkg="au.id.hazelwood.idms.validation"/>
 
         <subpackage name="user">
             <allow pkg="au.id.hazelwood.idms.model.framework"/>
@@ -44,8 +44,10 @@
     </subpackage>
 
     <subpackage name="service">
+        <allow class="org.springframework.util.Assert"/>
         <allow class="org.springframework.stereotype.Service"/>
         <allow class="org.springframework.stereotype.Component"/>
+        <allow class="org.springframework.validation.annotation.Validated"/>
 
         <subpackage name="user">
             <allow pkg="au.id.hazelwood.idms.entity.user"/>
