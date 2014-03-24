@@ -38,6 +38,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -80,7 +81,7 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
     }
 
     @Test
-    public void shouldReturnBadeRequestOnInvalidCreateUserBody() throws Exception
+    public void shouldReturnBadRequestOnInvalidCreateUserBody() throws Exception
     {
         RequestBuilder request = MockMvcRequestBuilders
             .post("/api/users")
@@ -115,7 +116,7 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
         ResultActions result = perform(request);
 
         result.andExpect(status().isNotFound());
-        result.andExpect(jsonPath("$.message").value("User not found."));
+        result.andExpect(jsonPath("$.message").value("Entity not found."));
         result.andExpect(jsonPath("$.errors").value(empty()));
         verify(userService).getUserById(1000L);
     }
@@ -175,8 +176,10 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
         ResultActions result = perform(request);
 
         result.andExpect(status().isBadRequest());
-        result.andExpect(jsonPath("$.message").value("Id in the url doesn't match id in the body."));
-        result.andExpect(jsonPath("$.errors").value(empty()));
+        result.andExpect(jsonPath("$.message").value("Invalid request."));
+        result.andExpect(jsonPath("$.errors").value(hasSize(1)));
+        result.andExpect(jsonPath("$.errors[0].field").value(nullValue()));
+        result.andExpect(jsonPath("$.errors[0].message").value("Id in the url doesn't match id in the body."));
     }
 
     private UserDetailDto createUserDetailDto(Long id, String email, String first, String last)

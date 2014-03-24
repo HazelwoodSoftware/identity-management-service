@@ -14,20 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.web.handler;
+package au.id.hazelwood.idms.web.dto.error;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 
-public class ErrorDetailUnitTest
+public class ErrorDtoUnitTest
 {
+    @Test
+    public void shouldDefaultErrors() throws Exception
+    {
+        ErrorDto body = new ErrorDto("message");
+        assertThat(body.getMessage(), is("message"));
+        assertThat(body.getErrors(), empty());
+    }
+
     @Test
     public void shouldHaveValidGetters() throws Exception
     {
-        ErrorDetail detail = new ErrorDetail("property-value", "message-value");
-        assertThat(detail.getField(), is("property-value"));
-        assertThat(detail.getMessage(), is("message-value"));
+        ErrorInfoDto detail = new ErrorInfoDto("property-1", "message-1");
+        ErrorDto body = new ErrorDto("message-value", Arrays.asList(detail));
+        assertThat(body.getMessage(), is("message-value"));
+        assertThat(body.getErrors(), contains(detail));
     }
 }

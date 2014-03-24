@@ -15,6 +15,8 @@
     <allow class="org.slf4j.LoggerFactory"/>
 
     <!-- Spring -->
+    <allow class="org.springframework.core.Ordered"/>
+    <allow class="org.springframework.core.annotation.Order"/>
     <allow class="org.springframework.beans.factory.annotation.Autowired"/>
     <allow class="org.springframework.beans.factory.annotation.Qualifier"/>
     <allow class="org.springframework.beans.factory.annotation.Value"/>
@@ -43,6 +45,10 @@
             <allow pkg=" au.id.hazelwood.idms.validation"/>
 
             <subpackage name="framework">
+            </subpackage>
+
+            <subpackage name="error">
+                <allow pkg="au.id.hazelwood.idms.web.dto.framework"/>
             </subpackage>
 
             <subpackage name="user">
@@ -89,8 +95,13 @@
             <allow pkg="org.springframework.context"/>
             <allow pkg="org.springframework.validation"/>
             <allow pkg="org.springframework.web.bind"/>
+            <allow pkg="au.id.hazelwood.idms.web.dto"/>
+            <allow class="org.springframework.dao.DataIntegrityViolationException"/>
             <allow class="org.springframework.web.context.request.WebRequest"/>
             <allow class="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler"/>
+
+            <!-- Test only -->
+            <allow pkg="au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert"/>
         </subpackage>
     </subpackage>
 

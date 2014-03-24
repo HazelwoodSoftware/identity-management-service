@@ -14,44 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define(['idms/_define'], function (module)
+define(['angular', 'idms/_define'], function (angular, module)
 {
     'use strict';
 
-    // Declare app level module which depends on filters, and services
-    return module
-        .config(['$routeProvider', function ($routeProvider)
+    module.config(['$routeProvider', '$locationProvider', 'CONFIG', function ($routeProvider, $locationProvider, CONFIG)
+    {
+        $routeProvider.when('/home', {
+            title: 'Home',
+            menu: 'Home',
+            templateUrl: CONFIG.viewUrl + '/home/home.html',
+            controller: 'HomeController'
+        }).when('/users', {
+            title: 'Users',
+            menu: 'Users',
+            templateUrl: CONFIG.viewUrl + '/users/user-list.html',
+            controller: 'UserListController'
+        }).when('/users/:userId', {
+            title: 'Edit user',
+            menu: 'Users',
+            templateUrl: CONFIG.viewUrl + '/users/user-edit.html',
+            controller: 'UserEditController'
+        }).otherwise({redirectTo: '/home'});
+
+        $locationProvider.hashPrefix("!");
+    }]);
+
+    module.run(['$rootScope', 'Page', function ($rootScope, Page)
+    {
+        $rootScope.$on('$routeChangeSuccess', function (event, current)
         {
-            $routeProvider.when('/home', {
-                title: 'Home',
-                menu: 'Home',
-                templateUrl: 'views/home/home.html',
-                controller: 'HomeController'
-            });
-            $routeProvider.when('/users', {
-                title: 'Users',
-                menu: 'Users',
-                templateUrl: 'views/users/user-list.html',
-                controller: 'UserListController'
-            });
-            $routeProvider.when('/users/:userId', {
-                title: 'Edit user',
-                menu: 'Users',
-                templateUrl: 'views/users/user-edit.html',
-                controller: 'UserEditController'
-            });
-            $routeProvider.otherwise({redirectTo: '/home'});
-        }])
-        .run(['$rootScope', function ($rootScope)
-        {
-            $rootScope.page = {
-                title: 'Home',
-                menu: 'Home'
-            };
-            $rootScope.$on('$routeChangeSuccess', function (event, current)
-            {
-                $rootScope.page.title = current.title;
-                $rootScope.page.menu = current.menu;
-            });
-        }]);
+            Page.title = current.title;
+            Page.menu = current.menu;
+        });
+    }]);
 });

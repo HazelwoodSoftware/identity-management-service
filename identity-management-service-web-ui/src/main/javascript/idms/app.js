@@ -16,5 +16,6 @@
  */
 define([
     'idms/_define',
+    'idms/_interceptors',
     'idms/_routes'
 ], function (module) { return module; });

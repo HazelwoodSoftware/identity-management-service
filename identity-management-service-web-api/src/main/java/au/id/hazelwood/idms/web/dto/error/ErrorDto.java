@@ -14,23 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.web.handler;
+package au.id.hazelwood.idms.web.dto.error;
 
-import java.io.Serializable;
+import au.id.hazelwood.idms.web.dto.framework.BaseDto;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public final class ErrorResponseBody implements Serializable
+public final class ErrorDto extends BaseDto
 {
     private final String message;
-    private final List<ErrorDetail> errors;
+    private final List<ErrorInfoDto> errors;
 
-    public ErrorResponseBody(String message)
+    public ErrorDto(String message, ErrorInfoDto... errors)
     {
-        this(message, Collections.<ErrorDetail>emptyList());
+        this(message, Arrays.asList(errors));
     }
 
-    public ErrorResponseBody(String message, List<ErrorDetail> errors)
+    public ErrorDto(String message, List<ErrorInfoDto> errors)
     {
         this.message = message;
         this.errors = Collections.unmodifiableList(errors);
@@ -41,7 +43,7 @@ public final class ErrorResponseBody implements Serializable
         return message;
     }
 
-    public List<ErrorDetail> getErrors()
+    public List<ErrorInfoDto> getErrors()
     {
         return errors;
     }

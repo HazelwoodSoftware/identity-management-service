@@ -34,7 +34,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
@@ -42,11 +41,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseBody;
+import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseErrors;
+import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseHeader;
+import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseStatus;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -75,20 +73,6 @@ public class GlobalExceptionHandlerUnitTest
     }
 
     @Test
-    public void shouldHandleEntityNotFound() throws Exception
-    {
-        ResponseEntity<Object> responseEntity = handler.handleEntityNotFound(new EntityNotFoundException("Entity not found"), webRequest);
-        assertResponseEntity(responseEntity, HttpStatus.NOT_FOUND, "Entity not found", 0);
-    }
-
-    @Test
-    public void shouldHandleIllegalArgument() throws Exception
-    {
-        ResponseEntity<Object> responseEntity = handler.handleIllegalArgument(new IllegalArgumentException("Illegal argument"), webRequest);
-        assertResponseEntity(responseEntity, HttpStatus.BAD_REQUEST, "Illegal argument", 0);
-    }
-
-    @Test
     public void shouldHandleConstraintViolationException() throws Exception
     {
         ConstraintViolation<?> one = mock(ConstraintViolation.class);
@@ -101,9 +85,11 @@ public class GlobalExceptionHandlerUnitTest
         ConstraintViolationException cve = new ConstraintViolationException(new HashSet<>(Arrays.asList(one, two)));
 
         ResponseEntity<Object> responseEntity = handler.handleConstraintViolationException(cve, webRequest);
-        assertResponseEntity(responseEntity, HttpStatus.BAD_REQUEST, "Constraint violation.", 2);
-        assertResponseBodyError(responseEntity, "path one", "message one");
-        assertResponseBodyError(responseEntity, "path two", "message two");
+        assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
+        assertResponseHeader(responseEntity, 0);
+        assertResponseBody(responseEntity, "Constraint violation.", 2);
+        assertResponseErrors(responseEntity, "path one", "message one");
+        assertResponseErrors(responseEntity, "path two", "message two");
     }
 
     @Test
@@ -116,8 +102,10 @@ public class GlobalExceptionHandlerUnitTest
         RuntimeException ex = new RuntimeException("Runtime exception due to cve", new ConstraintViolationException(Collections.singleton(one)));
 
         ResponseEntity<Object> responseEntity = handler.handleAllUnknown(ex, webRequest);
-        assertResponseEntity(responseEntity, HttpStatus.BAD_REQUEST, "Constraint violation.", 1);
-        assertResponseBodyError(responseEntity, "path", "message");
+        assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
+        assertResponseHeader(responseEntity, 0);
+        assertResponseBody(responseEntity, "Constraint violation.", 1);
+        assertResponseErrors(responseEntity, "path", "message");
     }
 
     @Test
@@ -135,9 +123,11 @@ public class GlobalExceptionHandlerUnitTest
 
         ResponseEntity<Object> responseEntity = handler.handleException(ex, webRequest);
 
-        assertResponseEntity(responseEntity, HttpStatus.BAD_REQUEST, "Validation error.", 2);
-        assertResponseBodyError(responseEntity, "", "object error message");
-        assertResponseBodyError(responseEntity, "field name", "field error message");
+        assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
+        assertResponseHeader(responseEntity, 0);
+        assertResponseBody(responseEntity, "Validation error.", 2);
+        assertResponseErrors(responseEntity, null, "object error message");
+        assertResponseErrors(responseEntity, "field name", "field error message");
         verify(messageSource).getMessage(objectError, LocaleContextHolder.getLocale());
         verify(messageSource).getMessage(fieldError, LocaleContextHolder.getLocale());
     }
@@ -149,21 +139,9 @@ public class GlobalExceptionHandlerUnitTest
 
         ResponseEntity<Object> responseEntity = handler.handleAllUnknown(ex, webRequest);
 
-        assertResponseEntity(responseEntity, HttpStatus.INTERNAL_SERVER_ERROR, "Runtime exception", 0);
+        assertResponseStatus(responseEntity, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertResponseHeader(responseEntity, 0);
+        assertResponseBody(responseEntity, "Unexpected system error.", 0);
         verify(webRequest).setAttribute("javax.servlet.error.exception", ex, WebRequest.SCOPE_REQUEST);
-    }
-
-    private void assertResponseEntity(ResponseEntity<Object> responseEntity, HttpStatus status, String message, int errors)
-    {
-        assertThat(responseEntity.getStatusCode(), is(status));
-        assertThat(responseEntity.getHeaders().size(), is(0));
-        assertThat(responseEntity.getBody(), hasProperty("message", is(message)));
-        assertThat(responseEntity.getBody(), hasProperty("errors", hasSize(errors)));
-    }
-
-    private void assertResponseBodyError(ResponseEntity<Object> responseEntity, String property, String message)
-    {
-        assertThat(responseEntity.getBody(), hasProperty("errors", hasItem(hasProperty("field", is(property)))));
-        assertThat(responseEntity.getBody(), hasProperty("errors", hasItem(hasProperty("message", is(message)))));
     }
 }

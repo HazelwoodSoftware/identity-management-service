@@ -84,6 +84,18 @@ public class UserDetailDtoToModelConverterUnitTest
         verify(userService).getUserById(1002L);
     }
 
+    @Test
+    public void shouldTrimValuesToNull() throws Exception
+    {
+        when(userService.getUserById(1001L)).thenReturn(UserModelFixture.create(1001L, "test-1@mail.com", "first", "last"));
+
+        UserDetailDto one = createUserDetailDto(1001L, "", "", "");
+        List<UserModel> models = Lists.newArrayList(Iterables.transform(Arrays.asList(one), converter));
+
+        assertUserModel(models.get(0), 1001L, null, null, null);
+        verify(userService).getUserById(1001L);
+    }
+
     private UserDetailDto createUserDetailDto(long id, String email, String first, String last)
     {
         UserDetailDto dto = new UserDetailDto();

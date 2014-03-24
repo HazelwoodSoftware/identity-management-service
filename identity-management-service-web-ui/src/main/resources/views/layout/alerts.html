@@ -1,0 +1,5 @@
+<div class="alert alert-danger alert-dismissable" data-ng-repeat="error in page.errors">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4><i class="fa fa-exclamation-triangle"></i> {{error.title}}</h4>
+  <p>{{error.data.message}} Please contact <a href="#" class="alert-link">IDMS support</a>.</p>
+</div>

@@ -16,26 +16,29 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
-import java.io.Serializable;
+import au.id.hazelwood.idms.web.dto.error.ErrorDto;
 
-public final class ErrorDetail implements Serializable
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.persistence.EntityNotFoundException;
+
+/**
+ * Handler for {@link EntityNotFoundException} thrown during the processing of a request.
+ *
+ * @author Ricky Hazelwood
+ */
+@ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class EntityNotFoundExceptionHandler
 {
-    private final String field;
-    private final String message;
-
-    public ErrorDetail(String field, String message)
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<Object> handle()
     {
-        this.field = field;
-        this.message = message;
-    }
-
-    public String getField()
-    {
-        return field;
-    }
-
-    public String getMessage()
-    {
-        return message;
+        return new ResponseEntity<Object>(new ErrorDto("Entity not found."), HttpStatus.NOT_FOUND);
     }
 }

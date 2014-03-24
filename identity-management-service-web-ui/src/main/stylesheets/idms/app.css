@@ -49,3 +49,8 @@ html
 {
     text-align: left;
 }
+.alert .close
+{
+    color: #000000;
+    text-decoration: none;
+}

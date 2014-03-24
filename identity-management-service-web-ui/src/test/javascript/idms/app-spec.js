@@ -48,16 +48,17 @@ define(['angular', 'angular_mocks', 'idms/app'], function (angular, mocks)
 
         describe('page', function ()
         {
-            it('should set default tile and menu', mocks.inject(function ($rootScope)
+            it('should set default tile and menu', mocks.inject(function ($rootScope, Page)
             {
-                expect($rootScope.page.title).toEqual('Home');
-                expect($rootScope.page.menu).toEqual('Home');
+                expect($rootScope.page).toEqual(Page);
+                expect(Page.title).toEqual('');
+                expect(Page.menu).toEqual('');
             }));
-            it('should set tile and menu on $routeChangeSuccess', mocks.inject(function ($rootScope)
+            it('should set tile and menu on $routeChangeSuccess', mocks.inject(function ($rootScope, Page)
             {
                 $rootScope.$broadcast("$routeChangeSuccess", {title:"title-test",menu:"menu-test"});
-                expect($rootScope.page.title).toEqual('title-test');
-                expect($rootScope.page.menu).toEqual('menu-test');
+                expect(Page.title).toEqual('title-test');
+                expect(Page.menu).toEqual('menu-test');
             }));
         });
     });

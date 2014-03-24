@@ -21,6 +21,7 @@ import au.id.hazelwood.idms.service.user.UserService;
 import au.id.hazelwood.idms.web.dto.user.UserDetailDto;
 
 import com.google.common.base.Function;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,9 +50,9 @@ public class UserDetailDtoToModelConverter implements Function<UserDetailDto, Us
     private UserModel convert(UserDetailDto dto)
     {
         UserModel model = userService.getUserById(dto.getId());
-        model.setEmail(dto.getEmail());
-        model.setFirstName(dto.getFirstName());
-        model.setLastName(dto.getLastName());
+        model.setEmail(StringUtils.trimToNull(dto.getEmail()));
+        model.setFirstName(StringUtils.trimToNull(dto.getFirstName()));
+        model.setLastName(StringUtils.trimToNull(dto.getLastName()));
         return model;
     }
 }

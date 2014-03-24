@@ -37,6 +37,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -84,7 +85,8 @@ public abstract class BaseIntegrationTest
 
     protected ResultActions perform(RequestBuilder request, boolean hasResponseBody) throws Exception
     {
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).defaultRequest(get("/").accept(MediaType.APPLICATION_JSON)).build();
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
+                                         .alwaysDo(MockMvcResultHandlers.print()).build();
         ResultActions result = mockMvc.perform(request);
         if (hasResponseBody)
         {

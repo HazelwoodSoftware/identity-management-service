@@ -14,30 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define([
-    'angular',
-    'angular_route',
-    'idms/constants/constants',
-    'idms/services/services',
-    'idms/directives/directives',
-    'idms/filters/filters',
-    'idms/controllers/controllers'
-], function (angular)
-{
-    'use strict';
+package au.id.hazelwood.idms.web.dto.error;
 
-    // Declare app level module which depends on filters, and services
-    return angular.module('idms', ['ngRoute', 'idms.constants', 'idms.services', 'idms.directives', 'idms.filters', 'idms.controllers'])
-        .factory('Page', function ()
-        {
-            return {
-                title: '',
-                menu: '',
-                errors: []
-            };
-        })
-        .run(['$rootScope', 'Page', function ($rootScope, Page)
-        {
-            $rootScope.page = Page;
-        }]);
-});
+import au.id.hazelwood.idms.web.dto.framework.BaseDto;
+
+public final class ErrorInfoDto extends BaseDto
+{
+    private final String field;
+    private final String message;
+
+    public ErrorInfoDto(String message)
+    {
+        this(null, message);
+    }
+
+    public ErrorInfoDto(String field, String message)
+    {
+        this.field = field;
+        this.message = message;
+    }
+
+    public String getField()
+    {
+        return field;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+}

@@ -14,33 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.web.handler;
+package au.id.hazelwood.idms.web.dto.error;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-public class ErrorResponseBodyUnitTest
+public class ErrorInfoDtoUnitTest
 {
-    @Test
-    public void shouldDefaultErrors() throws Exception
-    {
-        ErrorResponseBody body = new ErrorResponseBody("message");
-        assertThat(body.getMessage(), is("message"));
-        assertThat(body.getErrors(), empty());
-    }
-
     @Test
     public void shouldHaveValidGetters() throws Exception
     {
-        ErrorDetail detail = new ErrorDetail("property-1", "message-1");
-        ErrorResponseBody body = new ErrorResponseBody("message-value", Arrays.asList(detail));
-        assertThat(body.getMessage(), is("message-value"));
-        assertThat(body.getErrors(), contains(detail));
+        ErrorInfoDto detail = new ErrorInfoDto("field value", "message value");
+        assertThat(detail.getField(), is("field value"));
+        assertThat(detail.getMessage(), is("message value"));
+    }
+
+    @Test
+    public void shouldDefaultField() throws Exception
+    {
+        ErrorInfoDto detail = new ErrorInfoDto("message value");
+        assertThat(detail.getField(), is(nullValue()));
+        assertThat(detail.getMessage(), is("message value"));
     }
 }

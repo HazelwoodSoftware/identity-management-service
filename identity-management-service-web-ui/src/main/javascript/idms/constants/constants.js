@@ -22,6 +22,7 @@ define([
     return angular.module('idms.constants', [])
         .constant('CONFIG', {
             apiUrl: 'http://localhost:8082/api',
+            viewUrl: 'views',
             version: '0.1'
         });
 });

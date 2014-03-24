@@ -16,11 +16,17 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorInfoDto;
+
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +38,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.io.Serializable;
@@ -42,11 +47,12 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Handler for all exceptions thrown during the processing of a request.
+ * Handler for all standard spring exceptions thrown during the processing of a request.
  *
  * @author Ricky Hazelwood
  */
 @ControllerAdvice
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
 {
     private final MessageSource messageSource;
@@ -55,18 +61,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
     public GlobalExceptionHandler(MessageSource messageSource)
     {
         this.messageSource = messageSource;
-    }
-
-    @ExceptionHandler(value = EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex, WebRequest request)
-    {
-        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
-
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request)
-    {
-        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(value = ConstraintViolationException.class)
@@ -93,47 +87,42 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException nve, HttpHeaders headers,
-                                                                  HttpStatus status, WebRequest request)
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
-        return handleExceptionInternal(nve, createResponseBody(nve), headers, status, request);
+        return super.handleExceptionInternal(ex, body == null ? new ErrorDto("Unexpected system error.") : body, headers, status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request)
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+                                                                  HttpStatus status, WebRequest request)
     {
-        return super.handleExceptionInternal(ex, body == null ? createResponseBody(ex) : body, headers, status, request);
+        return handleExceptionInternal(ex, createResponseBody(ex), headers, status, request);
     }
 
-    private ErrorResponseBody createResponseBody(Exception ex)
+    private ErrorDto createResponseBody(ConstraintViolationException ex)
     {
-        return new ErrorResponseBody(ex.getMessage());
-    }
-
-    private ErrorResponseBody createResponseBody(ConstraintViolationException cve)
-    {
-        List<ErrorDetail> errors = new ArrayList<>();
-        for (ConstraintViolation<?> violation : cve.getConstraintViolations())
+        List<ErrorInfoDto> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations())
         {
-            errors.add(new ErrorDetail(violation.getPropertyPath().toString(), violation.getMessage()));
+            errors.add(new ErrorInfoDto(violation.getPropertyPath().toString(), violation.getMessage()));
         }
         Collections.sort(errors, new ErrorDetailComparator());
-        return new ErrorResponseBody("Constraint violation.", errors);
+        return new ErrorDto("Constraint violation.", errors);
     }
 
-    private ErrorResponseBody createResponseBody(MethodArgumentNotValidException nve)
+    private ErrorDto createResponseBody(MethodArgumentNotValidException ex)
     {
-        List<ErrorDetail> errors = new ArrayList<>();
-        for (ObjectError error : nve.getBindingResult().getGlobalErrors())
+        List<ErrorInfoDto> errors = new ArrayList<>();
+        for (ObjectError error : ex.getBindingResult().getGlobalErrors())
         {
-            errors.add(new ErrorDetail("", resolveErrorMessage(error)));
+            errors.add(new ErrorInfoDto(resolveErrorMessage(error)));
         }
-        for (FieldError error : nve.getBindingResult().getFieldErrors())
+        for (FieldError error : ex.getBindingResult().getFieldErrors())
         {
-            errors.add(new ErrorDetail(error.getField(), resolveErrorMessage(error)));
+            errors.add(new ErrorInfoDto(error.getField(), resolveErrorMessage(error)));
         }
         Collections.sort(errors, new ErrorDetailComparator());
-        return new ErrorResponseBody("Validation error.", errors);
+        return new ErrorDto("Validation error.", errors);
     }
 
     private String resolveErrorMessage(MessageSourceResolvable resolvable)
@@ -141,12 +130,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
         return messageSource.getMessage(resolvable, LocaleContextHolder.getLocale());
     }
 
-    private static class ErrorDetailComparator implements Serializable, Comparator<ErrorDetail>
+    private static class ErrorDetailComparator implements Serializable, Comparator<ErrorInfoDto>
     {
         @Override
-        public int compare(ErrorDetail o1, ErrorDetail o2)
+        public int compare(ErrorInfoDto o1, ErrorInfoDto o2)
         {
-            return o1.getField().compareTo(o2.getField());
+            return new CompareToBuilder().append(o1.getField(), o2.getField()).toComparison();
         }
     }
 }
