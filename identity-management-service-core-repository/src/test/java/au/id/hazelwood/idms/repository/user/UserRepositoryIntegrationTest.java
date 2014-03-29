@@ -20,7 +20,9 @@ import au.id.hazelwood.idms.entity.user.UserEntity;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ActiveProfiles;
@@ -53,6 +55,13 @@ public class UserRepositoryIntegrationTest
 {
     @Resource
     private UserRepository userRepository;
+    private ExpectedException expectedException = ExpectedException.none();
+
+    @Rule
+    public ExpectedException getExpectedException()
+    {
+        return expectedException;
+    }
 
     @Before
     public void verifyTestDataLoaded() throws Exception
@@ -102,9 +111,10 @@ public class UserRepositoryIntegrationTest
         assertThat(userRepository.count(), is(initialCount));
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test
     public void shouldGetValidationError() throws Exception
     {
+        expectedException.expect(ConstraintViolationException.class);
         userRepository.save(createUserEntity("", "", ""));
     }
 

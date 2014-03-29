@@ -25,7 +25,9 @@ import au.id.hazelwood.idms.service.user.UserService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.Mock;
@@ -53,7 +55,14 @@ public class UserServiceImplUnitTest
     private UserEntityToModelConverter userEntityToModelConverter;
     @Mock
     private UserModelToEntityConverter userModelToEntityConverter;
+    private ExpectedException expectedException = ExpectedException.none();
     private UserService userService;
+
+    @Rule
+    public ExpectedException getExpectedException()
+    {
+        return expectedException;
+    }
 
     @Before
     public void setUp() throws Exception
@@ -175,13 +184,15 @@ public class UserServiceImplUnitTest
         verify(userEntityToModelConverter).apply(entity);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionOnSaveNullUser() throws Exception
     {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("The given model must not be null!");
         userService.saveUser(null);
     }
 
-    @Test(expected = EmailAddressInUseException.class)
+    @Test
     public void shouldThrowExceptionOnSaveWithDuplicateEmail() throws Exception
     {
         UserModel orig = mock(UserModel.class);
@@ -192,6 +203,8 @@ public class UserServiceImplUnitTest
         when(orig.getId()).thenReturn(1001L);
         when(entity.getId()).thenReturn(1002L);
 
+        expectedException.expect(EmailAddressInUseException.class);
+        expectedException.expectMessage("Email address 'test@mail.com' already in use.");
         try
         {
             userService.saveUser(orig);

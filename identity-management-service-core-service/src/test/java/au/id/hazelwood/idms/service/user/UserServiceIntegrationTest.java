@@ -21,7 +21,9 @@ import au.id.hazelwood.idms.model.user.UserModel;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ActiveProfiles;
@@ -54,6 +56,13 @@ public class UserServiceIntegrationTest
 {
     @Resource
     private UserService userService;
+    private ExpectedException expectedException = ExpectedException.none();
+
+    @Rule
+    public ExpectedException getExpectedException()
+    {
+        return expectedException;
+    }
 
     @Test
     public void shouldFindAllUsers() throws Exception
@@ -67,9 +76,10 @@ public class UserServiceIntegrationTest
         assertThat(userService.getUserById(1001L), hasProperty("email", equalTo("admin@hazelwood.id.au")));
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void shouldNotGetNonExistingUserById() throws Exception
     {
+        expectedException.expect(EntityNotFoundException.class);
         userService.getUserById(0L);
     }
 
@@ -94,9 +104,10 @@ public class UserServiceIntegrationTest
         assertThat(model, hasProperty("email", equalTo(email)));
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test
     public void shouldNotAddInvalidUser() throws Exception
     {
+        expectedException.expect(ConstraintViolationException.class);
         userService.saveUser(createUserModel(null, randomString(254), randomString(20), randomString(20)));
     }
 
@@ -112,21 +123,24 @@ public class UserServiceIntegrationTest
         assertThat(model, hasProperty("email", equalTo(email)));
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void shouldFailToUpdateNonExistingUser() throws Exception
     {
+        expectedException.expect(EntityNotFoundException.class);
         userService.saveUser(createUserModel(0L, randomString(10) + "@hazelwood.id.au", randomString(5), randomString(5)));
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test
     public void shouldNotUpdateInvalidUser() throws Exception
     {
+        expectedException.expect(ConstraintViolationException.class);
         userService.saveUser(createUserModel(1001L, null, randomString(5), randomString(5)));
     }
 
-    @Test(expected = EmailAddressInUseException.class)
+    @Test
     public void shouldFailToUpdateWithDuplicateEmail() throws Exception
     {
+        expectedException.expect(EmailAddressInUseException.class);
         userService.saveUser(createUserModel(null, "admin@hazelwood.id.au", randomString(5), randomString(5)));
     }
 
