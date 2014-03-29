@@ -35,7 +35,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -116,8 +115,8 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
         ResultActions result = perform(request);
 
         result.andExpect(status().isNotFound());
+        result.andExpect(jsonPath("$.code").value(1050));
         result.andExpect(jsonPath("$.message").value("Entity not found."));
-        result.andExpect(jsonPath("$.errors").value(empty()));
         verify(userService).getUserById(1000L);
     }
 

@@ -16,28 +16,21 @@
  */
 package au.id.hazelwood.idms.web.dto.error;
 
-import au.id.hazelwood.idms.web.dto.framework.BaseDto;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-public final class ErrorDto extends BaseDto
+public enum ErrorType
 {
+    UNEXPECTED_ERROR(1000, "Unexpected system error."),
+    INVALID_REQUEST(1010, "Invalid request."),
+    VALIDATION_ERROR(1020, "Validation error."),
+    CONSTRAINT_VIOLATION(1030, "Constraint violation."),
+    INTEGRITY_VIOLATION(1040, "Data integrity violation."),
+    ENTITY_MISSING(1050, "Entity not found.");
     private final Integer code;
     private final String message;
-    private final List<ErrorInfoDto> errors;
 
-    public ErrorDto(ErrorType type, ErrorInfoDto... errors)
+    private ErrorType(Integer code, String message)
     {
-        this(type, Arrays.asList(errors));
-    }
-
-    public ErrorDto(ErrorType type, List<ErrorInfoDto> errors)
-    {
-        this.code = type.getCode();
-        this.message = type.getMessage();
-        this.errors = Collections.unmodifiableList(errors);
+        this.code = code;
+        this.message = message;
     }
 
     public Integer getCode()
@@ -48,10 +41,5 @@ public final class ErrorDto extends BaseDto
     public String getMessage()
     {
         return message;
-    }
-
-    public List<ErrorInfoDto> getErrors()
-    {
-        return errors;
     }
 }

@@ -18,31 +18,25 @@ package au.id.hazelwood.idms.web.dto.error;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 
-public class ErrorDtoUnitTest
+public class ErrorTypeUnitTest
 {
     @Test
-    public void shouldDefaultErrors() throws Exception
+    public void shouldHaveCodeAndMessage() throws Exception
     {
-        ErrorDto body = new ErrorDto(ErrorType.UNEXPECTED_ERROR);
-        assertThat(body.getCode(), is(ErrorType.UNEXPECTED_ERROR.getCode()));
-        assertThat(body.getMessage(), is(ErrorType.UNEXPECTED_ERROR.getMessage()));
-        assertThat(body.getErrors(), empty());
+        assertErrorType(ErrorType.UNEXPECTED_ERROR, 1000, "Unexpected system error.");
+        assertErrorType(ErrorType.INVALID_REQUEST, 1010, "Invalid request.");
+        assertErrorType(ErrorType.VALIDATION_ERROR, 1020, "Validation error.");
+        assertErrorType(ErrorType.CONSTRAINT_VIOLATION, 1030, "Constraint violation.");
+        assertErrorType(ErrorType.INTEGRITY_VIOLATION, 1040, "Data integrity violation.");
+        assertErrorType(ErrorType.ENTITY_MISSING, 1050, "Entity not found.");
     }
 
-    @Test
-    public void shouldHaveValidGetters() throws Exception
+    private void assertErrorType(ErrorType type, int code, String message)
     {
-        ErrorInfoDto detail = new ErrorInfoDto("property-1", "message-1");
-        ErrorDto body = new ErrorDto(ErrorType.UNEXPECTED_ERROR, Arrays.asList(detail));
-        assertThat(body.getCode(), is(ErrorType.UNEXPECTED_ERROR.getCode()));
-        assertThat(body.getMessage(), is(ErrorType.UNEXPECTED_ERROR.getMessage()));
-        assertThat(body.getErrors(), contains(detail));
+        assertThat(type.getCode(), is(code));
+        assertThat(type.getMessage(), is(message));
     }
 }

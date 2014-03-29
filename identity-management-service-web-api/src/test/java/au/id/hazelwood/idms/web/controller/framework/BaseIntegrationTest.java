@@ -85,8 +85,10 @@ public abstract class BaseIntegrationTest
 
     protected ResultActions perform(RequestBuilder request, boolean hasResponseBody) throws Exception
     {
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
-                                         .alwaysDo(MockMvcResultHandlers.print()).build();
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
+                                         .defaultRequest(get("/").accept(MediaType.APPLICATION_JSON))
+                                         .alwaysDo(MockMvcResultHandlers.print())
+                                         .build();
         ResultActions result = mockMvc.perform(request);
         if (hasResponseBody)
         {

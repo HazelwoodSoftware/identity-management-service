@@ -18,6 +18,7 @@ package au.id.hazelwood.idms.web.handler;
 
 import au.id.hazelwood.idms.web.dto.error.ErrorDto;
 import au.id.hazelwood.idms.web.dto.error.ErrorInfoDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -89,7 +90,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request)
     {
-        return super.handleExceptionInternal(ex, body == null ? new ErrorDto("Unexpected system error.") : body, headers, status, request);
+        return super.handleExceptionInternal(ex, body == null ? new ErrorDto(ErrorType.UNEXPECTED_ERROR) : body, headers, status, request);
     }
 
     @Override
@@ -107,7 +108,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
             errors.add(new ErrorInfoDto(violation.getPropertyPath().toString(), violation.getMessage()));
         }
         Collections.sort(errors, new ErrorDetailComparator());
-        return new ErrorDto("Constraint violation.", errors);
+        return new ErrorDto(ErrorType.CONSTRAINT_VIOLATION, errors);
     }
 
     private ErrorDto createResponseBody(MethodArgumentNotValidException ex)
@@ -122,7 +123,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
             errors.add(new ErrorInfoDto(error.getField(), resolveErrorMessage(error)));
         }
         Collections.sort(errors, new ErrorDetailComparator());
-        return new ErrorDto("Validation error.", errors);
+        return new ErrorDto(ErrorType.VALIDATION_ERROR, errors);
     }
 
     private String resolveErrorMessage(MessageSourceResolvable resolvable)

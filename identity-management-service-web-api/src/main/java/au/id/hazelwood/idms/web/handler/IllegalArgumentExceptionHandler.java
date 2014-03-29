@@ -18,6 +18,7 @@ package au.id.hazelwood.idms.web.handler;
 
 import au.id.hazelwood.idms.web.dto.error.ErrorDto;
 import au.id.hazelwood.idms.web.dto.error.ErrorInfoDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -26,7 +27,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Handler for {@link IllegalArgumentException} thrown during the processing of a request.
@@ -38,10 +38,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class IllegalArgumentExceptionHandler
 {
     @ExceptionHandler(value = IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity<Object> handle(IllegalArgumentException ex)
     {
-        return new ResponseEntity<Object>(new ErrorDto("Invalid request.", new ErrorInfoDto(ex.getMessage())), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(new ErrorDto(ErrorType.INVALID_REQUEST, new ErrorInfoDto(ex.getMessage())), HttpStatus.BAD_REQUEST);
     }
 }

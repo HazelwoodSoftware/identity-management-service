@@ -17,6 +17,7 @@
 package au.id.hazelwood.idms.web.handler;
 
 import au.id.hazelwood.idms.web.dto.error.ErrorDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -38,6 +39,6 @@ public class DataIntegrityViolationExceptionHandler
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<Object> handle()
     {
-        return new ResponseEntity<Object>(new ErrorDto("Data integrity violation."), HttpStatus.CONFLICT);
+        return new ResponseEntity<Object>(new ErrorDto(ErrorType.INTEGRITY_VIOLATION), HttpStatus.CONFLICT);
     }
 }

@@ -18,10 +18,12 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder location="classpath:au/id/hazelwood/idms/web-api.properties" ignore-unresolvable="true"/>
 
@@ -34,9 +36,18 @@
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="false">
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="prettyPrint" value="true"/>
                 <property name="objectMapper">
-                    <bean class="com.knappsack.swagger4springweb.util.ScalaObjectMapper"/>
+                    <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+                        <property name="objectMapper">
+                            <bean class="com.knappsack.swagger4springweb.util.ScalaObjectMapper"/>
+                        </property>
+                        <property name="indentOutput" value="true"/>
+                        <property name="featuresToDisable">
+                            <list>
+                                <util:constant static-field="com.fasterxml.jackson.databind.SerializationFeature.WRITE_EMPTY_JSON_ARRAYS"/>
+                            </list>
+                        </property>
+                    </bean>
                 </property>
             </bean>
         </mvc:message-converters>

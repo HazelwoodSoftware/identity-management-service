@@ -17,6 +17,7 @@
 package au.id.hazelwood.idms.web.handler;
 
 import au.id.hazelwood.idms.web.dto.error.ErrorDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -39,6 +40,6 @@ public class EntityNotFoundExceptionHandler
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<Object> handle()
     {
-        return new ResponseEntity<Object>(new ErrorDto("Entity not found."), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Object>(new ErrorDto(ErrorType.ENTITY_MISSING), HttpStatus.NOT_FOUND);
     }
 }
