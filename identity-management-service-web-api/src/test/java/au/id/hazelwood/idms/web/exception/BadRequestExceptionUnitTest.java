@@ -14,33 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package au.id.hazelwood.idms.web.handler;
+package au.id.hazelwood.idms.web.exception;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorDto;
 import au.id.hazelwood.idms.web.dto.error.ErrorType;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseBody;
-import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseStatus;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-public class DataIntegrityViolationExceptionHandlerUnitTest
+public class BadRequestExceptionUnitTest
 {
-    private DataIntegrityViolationExceptionHandler handler;
-
-    @Before
-    public void before() throws Exception
-    {
-        handler = new DataIntegrityViolationExceptionHandler();
-    }
-
     @Test
-    public void shouldHandleEntityNotFound() throws Exception
+    public void shouldHaveErrorDto() throws Exception
     {
-        ResponseEntity<Object> responseEntity = handler.handle();
-        assertResponseStatus(responseEntity, HttpStatus.CONFLICT);
-        assertResponseBody(responseEntity, ErrorType.INTEGRITY_VIOLATION, 0);
+        ErrorDto errorDto = new ErrorDto(ErrorType.VALIDATION_ERROR);
+        BadRequestException exception = new BadRequestException(errorDto);
+        assertThat(exception.getMessage(), nullValue());
+        assertThat(exception.getErrorDto(), is(errorDto));
     }
+
 }

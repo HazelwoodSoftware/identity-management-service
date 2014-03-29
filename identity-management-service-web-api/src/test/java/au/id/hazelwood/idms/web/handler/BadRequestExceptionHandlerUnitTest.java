@@ -16,7 +16,9 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorDto;
 import au.id.hazelwood.idms.web.dto.error.ErrorType;
+import au.id.hazelwood.idms.web.exception.BadRequestException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,21 +28,22 @@ import org.springframework.http.ResponseEntity;
 import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseBody;
 import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseStatus;
 
-public class DataIntegrityViolationExceptionHandlerUnitTest
+public class BadRequestExceptionHandlerUnitTest
 {
-    private DataIntegrityViolationExceptionHandler handler;
+    private BadRequestExceptionHandler handler;
 
     @Before
     public void before() throws Exception
     {
-        handler = new DataIntegrityViolationExceptionHandler();
+        handler = new BadRequestExceptionHandler();
     }
 
     @Test
     public void shouldHandleEntityNotFound() throws Exception
     {
-        ResponseEntity<Object> responseEntity = handler.handle();
-        assertResponseStatus(responseEntity, HttpStatus.CONFLICT);
-        assertResponseBody(responseEntity, ErrorType.INTEGRITY_VIOLATION, 0);
+        ErrorDto errorDto = new ErrorDto(ErrorType.VALIDATION_ERROR);
+        ResponseEntity<Object> responseEntity = handler.handle(new BadRequestException(errorDto));
+        assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
+        assertResponseBody(responseEntity, ErrorType.VALIDATION_ERROR, 0);
     }
 }

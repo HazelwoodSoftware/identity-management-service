@@ -16,6 +16,7 @@
  */
 package au.id.hazelwood.idms.service.user;
 
+import au.id.hazelwood.idms.exception.EmailAddressInUseException;
 import au.id.hazelwood.idms.model.user.UserModel;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -121,6 +122,12 @@ public class UserServiceIntegrationTest
     public void shouldNotUpdateInvalidUser() throws Exception
     {
         userService.saveUser(createUserModel(1001L, null, randomString(5), randomString(5)));
+    }
+
+    @Test(expected = EmailAddressInUseException.class)
+    public void shouldFailToUpdateWithDuplicateEmail() throws Exception
+    {
+        userService.saveUser(createUserModel(null, "admin@hazelwood.id.au", randomString(5), randomString(5)));
     }
 
     private UserModel createUserModel(Long id, String email, String first, String last)

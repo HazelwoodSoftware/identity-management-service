@@ -16,31 +16,29 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
-import au.id.hazelwood.idms.web.dto.error.ErrorType;
+import au.id.hazelwood.idms.web.exception.BadRequestException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseBody;
-import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseStatus;
+import javax.persistence.EntityNotFoundException;
 
-public class DataIntegrityViolationExceptionHandlerUnitTest
+/**
+ * Handler for {@link EntityNotFoundException} thrown during the processing of a request.
+ *
+ * @author Ricky Hazelwood
+ */
+@ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class BadRequestExceptionHandler
 {
-    private DataIntegrityViolationExceptionHandler handler;
-
-    @Before
-    public void before() throws Exception
+    @ExceptionHandler(value = BadRequestException.class)
+    public ResponseEntity<Object> handle(BadRequestException ex)
     {
-        handler = new DataIntegrityViolationExceptionHandler();
-    }
-
-    @Test
-    public void shouldHandleEntityNotFound() throws Exception
-    {
-        ResponseEntity<Object> responseEntity = handler.handle();
-        assertResponseStatus(responseEntity, HttpStatus.CONFLICT);
-        assertResponseBody(responseEntity, ErrorType.INTEGRITY_VIOLATION, 0);
+        return new ResponseEntity<Object>(ex.getErrorDto(), HttpStatus.BAD_REQUEST);
     }
 }

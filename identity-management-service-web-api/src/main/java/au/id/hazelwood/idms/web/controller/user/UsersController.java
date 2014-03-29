@@ -16,10 +16,15 @@
  */
 package au.id.hazelwood.idms.web.controller.user;
 
+import au.id.hazelwood.idms.exception.EmailAddressInUseException;
 import au.id.hazelwood.idms.service.user.UserService;
+import au.id.hazelwood.idms.web.dto.error.ErrorDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorInfoDto;
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
 import au.id.hazelwood.idms.web.dto.user.UserCreateDto;
 import au.id.hazelwood.idms.web.dto.user.UserDetailDto;
 import au.id.hazelwood.idms.web.dto.user.UserSummaryDto;
+import au.id.hazelwood.idms.web.exception.BadRequestException;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -110,6 +115,13 @@ public class UsersController
                            @Valid @ApiParam(name = "body", required = true, value = "User Detail") @RequestBody UserDetailDto dto)
     {
         Assert.isTrue(id.equals(dto.getId()), "Id in the url doesn't match id in the body.");
-        userService.saveUser(userDetailDtoToModelConverter.apply(dto));
+        try
+        {
+            userService.saveUser(userDetailDtoToModelConverter.apply(dto));
+        }
+        catch (EmailAddressInUseException ex)
+        {
+            throw new BadRequestException(new ErrorDto(ErrorType.VALIDATION_ERROR, new ErrorInfoDto("email", ex.getMessage())));
+        }
     }
 }

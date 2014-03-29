@@ -17,16 +17,21 @@
 package au.id.hazelwood.idms.service.user.impl;
 
 import au.id.hazelwood.idms.entity.user.UserEntity;
+import au.id.hazelwood.idms.exception.EmailAddressInUseException;
 import au.id.hazelwood.idms.model.user.UserModel;
 import au.id.hazelwood.idms.repository.user.UserRepository;
 import au.id.hazelwood.idms.service.user.UserService;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,6 +40,8 @@ import java.util.List;
  * @author Ricky Hazelwood
  */
 @Service
+@Validated
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService
 {
     private final UserRepository userRepository;
@@ -69,9 +76,15 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public UserModel saveUser(UserModel model)
+    @Transactional(readOnly = false)
+    public UserModel saveUser(@Valid UserModel model) throws EmailAddressInUseException
     {
         Assert.notNull(model, "The given model must not be null!");
+        UserEntity userByEmail = userRepository.findOneByEmail(model.getEmail());
+        if (userByEmail != null && ObjectUtils.notEqual(model.getId(), userByEmail.getId()))
+        {
+            throw new EmailAddressInUseException(model.getEmail());
+        }
         return transform(userRepository.save(transform(model)));
     }
 

@@ -16,6 +16,8 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -42,6 +44,6 @@ public class EntityNotFoundExceptionHandlerUnitTest
     {
         ResponseEntity<Object> responseEntity = handler.handle();
         assertResponseStatus(responseEntity, HttpStatus.NOT_FOUND);
-        assertResponseBody(responseEntity, "Entity not found.", 0);
+        assertResponseBody(responseEntity, ErrorType.ENTITY_MISSING, 0);
     }
 }

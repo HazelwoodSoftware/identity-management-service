@@ -16,6 +16,8 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -41,9 +43,10 @@ public final class ErrorResponseEntityAssert
         assertThat(responseEntity.getHeaders().size(), is(headers));
     }
 
-    public static void assertResponseBody(ResponseEntity<Object> responseEntity, String message, int errors)
+    public static void assertResponseBody(ResponseEntity<Object> responseEntity, ErrorType type, int errors)
     {
-        assertThat(responseEntity.getBody(), hasProperty("message", is(message)));
+        assertThat(responseEntity.getBody(), hasProperty("code", is(type.getCode())));
+        assertThat(responseEntity.getBody(), hasProperty("message", is(type.getMessage())));
         assertThat(responseEntity.getBody(), hasProperty("errors", hasSize(errors)));
     }
 

@@ -20,6 +20,8 @@ import au.id.hazelwood.idms.web.dto.error.ErrorDto;
 import au.id.hazelwood.idms.web.dto.error.ErrorInfoDto;
 import au.id.hazelwood.idms.web.dto.error.ErrorType;
 
+import com.google.common.collect.Iterables;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -105,7 +109,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
         List<ErrorInfoDto> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations())
         {
-            errors.add(new ErrorInfoDto(violation.getPropertyPath().toString(), violation.getMessage()));
+            Path propertyPath = violation.getPropertyPath();
+            String name = Iterables.isEmpty(propertyPath) ? "" : StringUtils.capitalize(Iterables.getLast(propertyPath).getName());
+            errors.add(new ErrorInfoDto(MessageFormat.format("{0} ({1}) {2}", name, violation.getInvalidValue(), violation.getMessage()).trim()));
         }
         Collections.sort(errors, new ErrorDetailComparator());
         return new ErrorDto(ErrorType.CONSTRAINT_VIOLATION, errors);

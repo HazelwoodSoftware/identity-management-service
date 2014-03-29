@@ -17,6 +17,7 @@
 package au.id.hazelwood.idms.service.user.impl;
 
 import au.id.hazelwood.idms.entity.user.UserEntity;
+import au.id.hazelwood.idms.exception.EmailAddressInUseException;
 import au.id.hazelwood.idms.model.user.UserModel;
 import au.id.hazelwood.idms.repository.user.UserRepository;
 import au.id.hazelwood.idms.service.user.UserService;
@@ -131,26 +132,73 @@ public class UserServiceImplUnitTest
     }
 
     @Test
-    public void shouldSaveUser()
+    public void shouldSaveUser() throws Exception
     {
         UserModel orig = mock(UserModel.class);
         UserModel result = mock(UserModel.class);
         UserEntity entity = mock(UserEntity.class);
 
+        when(orig.getEmail()).thenReturn("test@mail.com");
+        when(userRepository.findOneByEmail("test@mail.com")).thenReturn(null);
         when(userModelToEntityConverter.apply(orig)).thenReturn(entity);
         when(userRepository.save(entity)).thenReturn(entity);
         when(userEntityToModelConverter.apply(entity)).thenReturn(result);
 
         assertThat(userService.saveUser(orig), is(result));
 
+        verify(userRepository).findOneByEmail("test@mail.com");
+        verify(userModelToEntityConverter).apply(orig);
+        verify(userRepository).save(entity);
+        verify(userEntityToModelConverter).apply(entity);
+    }
+
+    @Test
+    public void shouldUpdateUser() throws Exception
+    {
+        UserModel orig = mock(UserModel.class);
+        UserModel result = mock(UserModel.class);
+        UserEntity entity = mock(UserEntity.class);
+
+        when(orig.getEmail()).thenReturn("test@mail.com");
+        when(userRepository.findOneByEmail("test@mail.com")).thenReturn(entity);
+        when(orig.getId()).thenReturn(1001L);
+        when(entity.getId()).thenReturn(1001L);
+        when(userModelToEntityConverter.apply(orig)).thenReturn(entity);
+        when(userRepository.save(entity)).thenReturn(entity);
+        when(userEntityToModelConverter.apply(entity)).thenReturn(result);
+
+        assertThat(userService.saveUser(orig), is(result));
+
+        verify(userRepository).findOneByEmail("test@mail.com");
         verify(userModelToEntityConverter).apply(orig);
         verify(userRepository).save(entity);
         verify(userEntityToModelConverter).apply(entity);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExceptionOnSaveNullUser()
+    public void shouldThrowExceptionOnSaveNullUser() throws Exception
     {
         userService.saveUser(null);
+    }
+
+    @Test(expected = EmailAddressInUseException.class)
+    public void shouldThrowExceptionOnSaveWithDuplicateEmail() throws Exception
+    {
+        UserModel orig = mock(UserModel.class);
+        UserEntity entity = mock(UserEntity.class);
+
+        when(orig.getEmail()).thenReturn("test@mail.com");
+        when(userRepository.findOneByEmail("test@mail.com")).thenReturn(entity);
+        when(orig.getId()).thenReturn(1001L);
+        when(entity.getId()).thenReturn(1002L);
+
+        try
+        {
+            userService.saveUser(orig);
+        }
+        finally
+        {
+            verify(userRepository).findOneByEmail("test@mail.com");
+        }
     }
 }

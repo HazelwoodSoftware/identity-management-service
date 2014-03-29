@@ -16,6 +16,8 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -43,7 +45,7 @@ public class IllegalArgumentExceptionHandlerUnitTest
     {
         ResponseEntity<Object> responseEntity = handler.handle(new IllegalArgumentException("Illegal argument"));
         assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
-        assertResponseBody(responseEntity, "Invalid request.", 1);
+        assertResponseBody(responseEntity, ErrorType.INVALID_REQUEST, 1);
         assertResponseErrors(responseEntity, null, "Illegal argument");
     }
 }

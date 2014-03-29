@@ -16,6 +16,8 @@
  */
 package au.id.hazelwood.idms.web.handler;
 
+import au.id.hazelwood.idms.web.dto.error.ErrorType;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -37,9 +39,11 @@ import org.springframework.web.context.request.WebRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseBody;
 import static au.id.hazelwood.idms.web.handler.ErrorResponseEntityAssert.assertResponseErrors;
@@ -76,10 +80,14 @@ public class GlobalExceptionHandlerUnitTest
     public void shouldHandleConstraintViolationException() throws Exception
     {
         ConstraintViolation<?> one = mock(ConstraintViolation.class);
-        when(one.getPropertyPath()).thenReturn(mock(Path.class, "path one"));
+        Path pathOne = createPathMock("path one");
+        when(one.getPropertyPath()).thenReturn(pathOne);
+        when(one.getInvalidValue()).thenReturn("invalid value one");
         when(one.getMessage()).thenReturn("message one");
         ConstraintViolation<?> two = mock(ConstraintViolation.class);
-        when(two.getPropertyPath()).thenReturn(mock(Path.class, "path two"));
+        Path pathTwo = createPathMock("path two");
+        when(two.getPropertyPath()).thenReturn(pathTwo);
+        when(two.getInvalidValue()).thenReturn("invalid value two");
         when(two.getMessage()).thenReturn("message two");
 
         ConstraintViolationException cve = new ConstraintViolationException(new HashSet<>(Arrays.asList(one, two)));
@@ -87,16 +95,18 @@ public class GlobalExceptionHandlerUnitTest
         ResponseEntity<Object> responseEntity = handler.handleConstraintViolationException(cve, webRequest);
         assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
         assertResponseHeader(responseEntity, 0);
-        assertResponseBody(responseEntity, "Constraint violation.", 2);
-        assertResponseErrors(responseEntity, "path one", "message one");
-        assertResponseErrors(responseEntity, "path two", "message two");
+        assertResponseBody(responseEntity, ErrorType.CONSTRAINT_VIOLATION, 2);
+        assertResponseErrors(responseEntity, null, "Path one (invalid value one) message one");
+        assertResponseErrors(responseEntity, null, "Path two (invalid value two) message two");
     }
 
     @Test
     public void shouldHandleAllUnknownWithConstraintViolationExceptionCause() throws Exception
     {
         ConstraintViolation<?> one = mock(ConstraintViolation.class);
-        when(one.getPropertyPath()).thenReturn(mock(Path.class, "path"));
+        Path path = createPathMock();
+        when(one.getPropertyPath()).thenReturn(path);
+        when(one.getInvalidValue()).thenReturn("invalid value");
         when(one.getMessage()).thenReturn("message");
 
         RuntimeException ex = new RuntimeException("Runtime exception due to cve", new ConstraintViolationException(Collections.singleton(one)));
@@ -104,8 +114,8 @@ public class GlobalExceptionHandlerUnitTest
         ResponseEntity<Object> responseEntity = handler.handleAllUnknown(ex, webRequest);
         assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
         assertResponseHeader(responseEntity, 0);
-        assertResponseBody(responseEntity, "Constraint violation.", 1);
-        assertResponseErrors(responseEntity, "path", "message");
+        assertResponseBody(responseEntity, ErrorType.CONSTRAINT_VIOLATION, 1);
+        assertResponseErrors(responseEntity, null, "(invalid value) message");
     }
 
     @Test
@@ -125,7 +135,7 @@ public class GlobalExceptionHandlerUnitTest
 
         assertResponseStatus(responseEntity, HttpStatus.BAD_REQUEST);
         assertResponseHeader(responseEntity, 0);
-        assertResponseBody(responseEntity, "Validation error.", 2);
+        assertResponseBody(responseEntity, ErrorType.VALIDATION_ERROR, 2);
         assertResponseErrors(responseEntity, null, "object error message");
         assertResponseErrors(responseEntity, "field name", "field error message");
         verify(messageSource).getMessage(objectError, LocaleContextHolder.getLocale());
@@ -141,7 +151,26 @@ public class GlobalExceptionHandlerUnitTest
 
         assertResponseStatus(responseEntity, HttpStatus.INTERNAL_SERVER_ERROR);
         assertResponseHeader(responseEntity, 0);
-        assertResponseBody(responseEntity, "Unexpected system error.", 0);
+        assertResponseBody(responseEntity, ErrorType.UNEXPECTED_ERROR, 0);
         verify(webRequest).setAttribute("javax.servlet.error.exception", ex, WebRequest.SCOPE_REQUEST);
+    }
+
+    private Path createPathMock(String... names)
+    {
+        Path path = mock(Path.class);
+        List<Path.Node> nodes = new ArrayList<>();
+        for (String name : names)
+        {
+            nodes.add(createNodeMock(name));
+        }
+        when(path.iterator()).thenReturn(nodes.iterator());
+        return path;
+    }
+
+    private Path.Node createNodeMock(String name)
+    {
+        Path.Node node = mock(Path.Node.class);
+        when(node.getName()).thenReturn(name);
+        return node;
     }
 }

@@ -28,9 +28,12 @@
     <allow pkg="org.mockito"/>
     <allow pkg="org.springframework.test"/>
     <allow pkg="org.springframework.mock.web"/>
-    <!-- Force use of hamcrest assert not junit asserts so only junit annotations allowed -->
+    <!-- Force use of hamcrest assert not junit asserts so only junit annotations & rules allowed -->
+    <allow pkg="org.junit.rules"/>
+    <allow class="org.junit.ClassRule"/>
     <allow class="org.junit.BeforeClass"/>
     <allow class="org.junit.AfterClass"/>
+    <allow class="org.junit.Rule"/>
     <allow class="org.junit.Before"/>
     <allow class="org.junit.After"/>
     <allow class="org.junit.Test"/>
@@ -55,8 +58,14 @@
                 <allow pkg="au.id.hazelwood.idms.web.dto.framework"/>
             </subpackage>
         </subpackage>
+        <subpackage name="exception">
+            <allow pkg="au.id.hazelwood.idms.web.dto.error"/>
+        </subpackage>
 
         <subpackage name="controller">
+            <allow pkg="au.id.hazelwood.idms.exception"/>
+            <allow pkg="au.id.hazelwood.idms.web.exception"/>
+            <allow pkg="au.id.hazelwood.idms.web.dto.error"/>
             <allow pkg="com.wordnik.swagger.annotations"/>
             <allow pkg="org.springframework.web.bind.annotation"/>
             <allow class="org.springframework.util.Assert"/>
@@ -95,7 +104,8 @@
             <allow pkg="org.springframework.context"/>
             <allow pkg="org.springframework.validation"/>
             <allow pkg="org.springframework.web.bind"/>
-            <allow pkg="au.id.hazelwood.idms.web.dto"/>
+            <allow pkg="au.id.hazelwood.idms.web.exception"/>
+            <allow pkg="au.id.hazelwood.idms.web.dto.error"/>
             <allow class="org.springframework.dao.DataIntegrityViolationException"/>
             <allow class="org.springframework.web.context.request.WebRequest"/>
             <allow class="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler"/>

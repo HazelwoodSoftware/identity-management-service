@@ -16,6 +16,7 @@
  */
 package au.id.hazelwood.idms.web.controller.user;
 
+import au.id.hazelwood.idms.exception.EmailAddressInUseException;
 import au.id.hazelwood.idms.model.user.UserModel;
 import au.id.hazelwood.idms.service.user.UserService;
 import au.id.hazelwood.idms.web.controller.framework.BaseIntegrationTest;
@@ -154,6 +155,7 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
         ResultActions result = perform(request);
 
         result.andExpect(status().isBadRequest());
+        result.andExpect(jsonPath("$.code").value(1020));
         result.andExpect(jsonPath("$.message").value("Validation error."));
         result.andExpect(jsonPath("$.errors").value(hasSize(3)));
         result.andExpect(jsonPath("$.errors[0].field").value("email"));
@@ -162,6 +164,29 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
         result.andExpect(jsonPath("$.errors[1].message").value("size must be between 0 and 20"));
         result.andExpect(jsonPath("$.errors[2].field").value("lastName"));
         result.andExpect(jsonPath("$.errors[2].message").value("size must be between 0 and 20"));
+    }
+
+    @Test
+    public void shouldValidationErrorsForDuplicateEmailUpdateUserBody() throws Exception
+    {
+        UserModel model = UserModelFixture.admin();
+        when(userService.getUserById(model.getId())).thenReturn(model);
+        when(userService.saveUser(any(UserModel.class))).thenThrow(new EmailAddressInUseException("admin@hazelwood.id.au"));
+        RequestBuilder request = MockMvcRequestBuilders
+            .put("/api/users/{id}", model.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(toJSON(createUserDetailDto(model.getId(), "admin@hazelwood.id.au", StringUtils.repeat("a", 20), StringUtils.repeat("a", 20))));
+
+        ResultActions result = perform(request);
+
+        result.andExpect(status().isBadRequest());
+        verify(userService).getUserById(model.getId());
+        verify(userService).saveUser(any(UserModel.class));
+        result.andExpect(jsonPath("$.code").value(1020));
+        result.andExpect(jsonPath("$.message").value("Validation error."));
+        result.andExpect(jsonPath("$.errors").value(hasSize(1)));
+        result.andExpect(jsonPath("$.errors[0].field").value("email"));
+        result.andExpect(jsonPath("$.errors[0].message").value("Email address 'admin@hazelwood.id.au' already in use."));
     }
 
     @Test
@@ -175,6 +200,7 @@ public class UsersControllerIntegrationTest extends BaseIntegrationTest
         ResultActions result = perform(request);
 
         result.andExpect(status().isBadRequest());
+        result.andExpect(jsonPath("$.code").value(1010));
         result.andExpect(jsonPath("$.message").value("Invalid request."));
         result.andExpect(jsonPath("$.errors").value(hasSize(1)));
         result.andExpect(jsonPath("$.errors[0].field").value(nullValue()));

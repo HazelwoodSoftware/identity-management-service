@@ -22,12 +22,15 @@
     <allow pkg="com.google.code.beanmatchers.BeanMatchers"/>
     <allow pkg="org.hamcrest.MatcherAssert"/>
     <allow pkg="org.hamcrest.Matchers"/>
-    <allow pkg="org.springframework.beans"/>
+    <allow pkg="org.mockito"/>
     <allow pkg="org.springframework.test"/>
-    <allow class="org.springframework.beans.factory.annotation.Autowired"/>
-    <!-- Force use of hamcrest assert not junit asserts so only junit annotations allowed -->
+    <allow pkg="org.springframework.mock.web"/>
+    <!-- Force use of hamcrest assert not junit asserts so only junit annotations & rules allowed -->
+    <allow pkg="org.junit.rules"/>
+    <allow class="org.junit.ClassRule"/>
     <allow class="org.junit.BeforeClass"/>
     <allow class="org.junit.AfterClass"/>
+    <allow class="org.junit.Rule"/>
     <allow class="org.junit.Before"/>
     <allow class="org.junit.After"/>
     <allow class="org.junit.Test"/>
