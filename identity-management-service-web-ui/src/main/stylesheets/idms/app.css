@@ -54,3 +54,12 @@ html
     color: #000000;
     text-decoration: none;
 }
+.has-success .form-control-feedback {
+    color: #3c763d
+}
+.has-warning .form-control-feedback {
+    color: #8a6d3b
+}
+.has-error .form-control-feedback {
+    color: #a94442
+}

@@ -54,13 +54,13 @@
                 <groupId>com.github.searls</groupId>
                 <artifactId>jasmine-maven-plugin</artifactId>
                 <configuration>
-                    <srcDirectoryName>javascripts</srcDirectoryName>
-                    <specDirectoryName>specs</specDirectoryName>
+                    <jsSrcDir>${project.build.outputDirectory}</jsSrcDir>
+                    <jsTestSrcDir>${project.build.testOutputDirectory}</jsTestSrcDir>
                     <preloadSources>
-                        <source>lib/requirejs/require.js</source>
+                        <source>javascripts/lib/requirejs/require.js</source>
                     </preloadSources>
                     <specExcludes>
-                        <exclude>lib/**/*.js</exclude>
+                        <exclude>javascripts/lib/**/*.js</exclude>
                     </specExcludes>
                     <customRunnerTemplate>build-config/jasmine-spec-runner.htmltemplate</customRunnerTemplate>
                 </configuration>

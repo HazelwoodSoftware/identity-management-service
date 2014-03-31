@@ -23,7 +23,7 @@
     $endif$
     <title>IDMS Jasmine Runner</title>
     <script type="text/javascript">
-        window.onerror = function (msg, url, line)
+        window.onerror = function (msg)
         {
             if ('$reporter$' == 'HtmlReporter')
             {
@@ -58,7 +58,7 @@
                 'angular': 'lib/angularjs/angular',
                 'angular_route': 'lib/angularjs/angular-route',
                 'angular_resource': 'lib/angularjs/angular-resource',
-                'angular_mocks': '/$specDir$/lib/angularjs/angular-mocks'
+                'angular_mocks': '/$specDir$/javascripts/lib/angularjs/angular-mocks'
             },
             shim: {
                 'bootstrap': ['jquery'],
@@ -69,15 +69,12 @@
                     deps: ['angular'],
                     exports: 'angular.mock'
                 }
-            },
-            $if(customRunnerConfiguration)$
-                $customRunnerConfiguration$
-            $endif$
+            }
         };
 
         if (!configuration.baseUrl)
         {
-            configuration.baseUrl = '$sourceDir$';
+            configuration.baseUrl = '$sourceDir$/javascripts' ;
         }
 
         if (!configuration.paths)
@@ -87,7 +84,7 @@
 
         if (!configuration.paths.specs)
         {
-            var specDir = '$specDir$';
+            var specDir = '$specDir$/javascripts';
             if (!specDir.match(/^file/))
             {
                 specDir = '/' + specDir;
