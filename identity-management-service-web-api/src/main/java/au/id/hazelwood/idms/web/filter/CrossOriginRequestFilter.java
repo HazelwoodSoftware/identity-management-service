@@ -16,6 +16,7 @@
  */
 package au.id.hazelwood.idms.web.filter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -31,23 +32,21 @@ import java.io.IOException;
  */
 public class CrossOriginRequestFilter extends OncePerRequestFilter
 {
-    private String allowedHeaders = "Accept, Content-Type, Origin, X-Requested-With";
-    private String allowedMethods = "GET, HEAD, POST, PUT, DELETE, OPTIONS";
+    private String allowedMethods = "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException
     {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Headers", this.allowedHeaders);
-        response.setHeader("Access-Control-Allow-Methods", this.allowedMethods);
-        response.setHeader("Access-Control-Max-Age", "3600");
+        String origin = request.getHeader("Origin");
+        if (StringUtils.isNotEmpty(origin))
+        {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+            response.setHeader("Access-Control-Allow-Methods", this.allowedMethods);
+            response.setHeader("Access-Control-Max-Age", "3600");
+        }
         filterChain.doFilter(request, response);
-    }
-
-    public void setAllowedHeaders(String allowedHeaders)
-    {
-        this.allowedHeaders = allowedHeaders;
     }
 
     public void setAllowedMethods(String allowedMethods)

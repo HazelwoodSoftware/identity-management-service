@@ -44,13 +44,27 @@ public class CrossOriginRequestFilterUnitTest
     @Test
     public void shouldAddHeaders() throws Exception
     {
-        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletRequest request = mockRequest("http://localhost", "accept, origin");
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain chain = mock(FilterChain.class);
 
         filter.doFilter(request, response, chain);
 
-        assertAccessControlHeaders(response, "Accept, Content-Type, Origin, X-Requested-With", "GET, HEAD, POST, PUT, DELETE, OPTIONS");
+        assertAccessControlHeaders(response, "http://localhost", "accept, origin", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+        verify(chain).doFilter(request, response);
+
+        verifyNoMoreInteractions(response, chain);
+    }
+
+    @Test
+    public void shouldNotAddHeaders() throws Exception
+    {
+        HttpServletRequest request = mockRequest("", "accept, origin");
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain chain = mock(FilterChain.class);
+
+        filter.doFilter(request, response, chain);
+
         verify(chain).doFilter(request, response);
 
         verifyNoMoreInteractions(response, chain);
@@ -59,23 +73,30 @@ public class CrossOriginRequestFilterUnitTest
     @Test
     public void shouldAddOverriddenHeaders() throws Exception
     {
-        HttpServletRequest request = new MockHttpServletRequest();
+        HttpServletRequest request = mockRequest("*", "accept");
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain chain = mock(FilterChain.class);
 
-        filter.setAllowedHeaders("Accept, Content-Type");
         filter.setAllowedMethods("GET");
         filter.doFilter(request, response, chain);
 
-        assertAccessControlHeaders(response, "Accept, Content-Type", "GET");
+        assertAccessControlHeaders(response, "*", "accept", "GET");
         verify(chain).doFilter(request, response);
 
         verifyNoMoreInteractions(response, chain);
     }
 
-    private void assertAccessControlHeaders(HttpServletResponse response, String allowedHeaders, String allowedMethods)
+    private HttpServletRequest mockRequest(String origin, String requestHeaders)
     {
-        verify(response).setHeader("Access-Control-Allow-Origin", "*");
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader("Origin", origin);
+        request.addHeader("Access-Control-Request-Headers", requestHeaders);
+        return request;
+    }
+
+    private void assertAccessControlHeaders(HttpServletResponse response, String allowedOrigin, String allowedHeaders, String allowedMethods)
+    {
+        verify(response).setHeader("Access-Control-Allow-Origin", allowedOrigin);
         verify(response).setHeader("Access-Control-Allow-Headers", allowedHeaders);
         verify(response).setHeader("Access-Control-Allow-Methods", allowedMethods);
         verify(response).setHeader("Access-Control-Max-Age", "3600");
