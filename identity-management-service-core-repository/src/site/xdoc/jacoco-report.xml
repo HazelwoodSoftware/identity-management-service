@@ -17,9 +17,9 @@
   -->
 <document>
     <properties>
-        <title>Saga Report</title>
+        <title>Jacoco Report</title>
     </properties>
     <body>
-        <iframe src="identity-management-service-web-ui/coverage/total-report.html" name="content" width="95%" height="595" marginwidth="0" marginheight="0" frameborder="1"/>
+        <iframe src="jacoco/index.html" name="content" width="95%" height="595" marginwidth="0" marginheight="0" frameborder="1"/>
     </body>
 </document>

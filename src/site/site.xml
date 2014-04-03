@@ -46,11 +46,6 @@
                 <item name="Dependency Management" href="dependency-management.html"/>
                 <item name="Plugins" href="plugins.html"/>
             </item>
-            <item name="Project Reports" href="project-reports.html">
-                <item name="Surefire Report" href="surefire-report.html"/>
-                <item name="Cobertura Report" href="cobertura-report.html"/>
-                <item name="Saga Report" href="saga-report.html"/>
-            </item>
         </menu>
         <menu ref="modules"/>
     </body>

@@ -48,21 +48,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>cobertura-instrument</id>
-                        <phase>test-compile</phase>
-                    </execution>
-                    <execution>
-                        <id>cobertura-check</id>
-                        <phase>test</phase>
-                    </execution>
-                    <execution>
-                        <id>cobertura-report</id>
-                        <phase>site</phase>
-                    </execution>
-                </executions>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -310,11 +297,6 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.cobertura</groupId>
-            <artifactId>cobertura</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

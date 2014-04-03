@@ -34,6 +34,13 @@ public class ErrorTypeUnitTest
         assertErrorType(ErrorType.ENTITY_MISSING, 1050, "Entity not found.");
     }
 
+    @Test
+    public void shouldValuesAndValueOf() throws Exception
+    {
+        assertThat(ErrorType.values().length, is(6));
+        assertThat(ErrorType.valueOf("UNEXPECTED_ERROR"), is(ErrorType.UNEXPECTED_ERROR));
+    }
+
     private void assertErrorType(ErrorType type, int code, String message)
     {
         assertThat(type.getCode(), is(code));
