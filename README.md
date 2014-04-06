@@ -22,4 +22,3 @@ TODO
 ====
 
 * Move all repository and service into core package
-* Move views into top level directory

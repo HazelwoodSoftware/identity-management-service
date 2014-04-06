@@ -132,6 +132,10 @@
                 <targetPath>javascripts</targetPath>
             </resource>
             <resource>
+                <directory>src/main/views</directory>
+                <targetPath>views</targetPath>
+            </resource>
+            <resource>
                 <directory>src/main/stylesheets</directory>
                 <targetPath>stylesheets</targetPath>
             </resource>
